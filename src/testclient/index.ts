@@ -17,22 +17,22 @@ import {
   ServerInfo,
   SubscriptionOptions
 } from 'ts-nats';
-import * as rustServersServerIdEventsWipedChannel from "./testchannels/RustServersServerIdEventsWiped";
-import * as rustServersServerIdEventsStartedChannel from "./testchannels/RustServersServerIdEventsStarted";
-import * as rustServersServerIdEventsStoppingChannel from "./testchannels/RustServersServerIdEventsStopping";
-import * as rustServersServerIdPlayersSteamIdEventsConnectedChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsConnected";
-import * as rustServersServerIdPlayersSteamIdEventsDisconnectedChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsDisconnected";
-import * as rustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsResourcesGathered";
-import * as rustServersServerIdPlayersSteamIdEventsRespawnedChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsRespawned";
-import * as rustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsCombatPlayerhit";
-import * as rustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup";
-import * as rustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsItemsItemIdLoot";
-import * as rustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsItemsItemIdCrafted";
-import * as rustServersServerIdEventsCommandChannel from "./testchannels/RustServersServerIdEventsCommand";
-import * as rustServersServerIdPlayersSteamIdEventsReportedChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsReported";
-import * as rustServersServerIdPlayersSteamIdEventsUnbannedChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsUnbanned";
-import * as rustServersServerIdPlayersSteamIdEventsBannedChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsBanned";
-import * as rustServersServerIdPlayersSteamIdEventsChatChannel from "./testchannels/RustServersServerIdPlayersSteamIdEventsChat";
+import * as v0RustServersServerIdEventsWipedChannel from "./testchannels/V0RustServersServerIdEventsWiped";
+import * as v0RustServersServerIdEventsStartedChannel from "./testchannels/V0RustServersServerIdEventsStarted";
+import * as v0RustServersServerIdEventsStoppingChannel from "./testchannels/V0RustServersServerIdEventsStopping";
+import * as v0RustServersServerIdPlayersSteamIdEventsConnectedChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsConnected";
+import * as v0RustServersServerIdPlayersSteamIdEventsDisconnectedChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsDisconnected";
+import * as v0RustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsResourcesGathered";
+import * as v0RustServersServerIdPlayersSteamIdEventsRespawnedChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsRespawned";
+import * as v0RustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsCombatPlayerhit";
+import * as v0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup";
+import * as v0RustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsItemsItemIdLoot";
+import * as v0RustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsItemsItemIdCrafted";
+import * as v0RustServersServerIdEventsCommandChannel from "./testchannels/V0RustServersServerIdEventsCommand";
+import * as v0RustServersServerIdPlayersSteamIdEventsReportedChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsReported";
+import * as v0RustServersServerIdPlayersSteamIdEventsUnbannedChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsUnbanned";
+import * as v0RustServersServerIdPlayersSteamIdEventsBannedChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsBanned";
+import * as v0RustServersServerIdPlayersSteamIdEventsChatChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsChat";
 import {
   ServerPlayerConnected
 } from "..//models/ServerPlayerConnected";
@@ -90,52 +90,52 @@ export enum AvailableEvents {
     yield = 'yield'
 }
 export {
-  rustServersServerIdEventsWipedChannel
+  v0RustServersServerIdEventsWipedChannel
 };
 export {
-  rustServersServerIdEventsStartedChannel
+  v0RustServersServerIdEventsStartedChannel
 };
 export {
-  rustServersServerIdEventsStoppingChannel
+  v0RustServersServerIdEventsStoppingChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsConnectedChannel
+  v0RustServersServerIdPlayersSteamIdEventsConnectedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsDisconnectedChannel
+  v0RustServersServerIdPlayersSteamIdEventsDisconnectedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel
+  v0RustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsRespawnedChannel
+  v0RustServersServerIdPlayersSteamIdEventsRespawnedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel
+  v0RustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel
+  v0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel
+  v0RustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel
+  v0RustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel
 };
 export {
-  rustServersServerIdEventsCommandChannel
+  v0RustServersServerIdEventsCommandChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsReportedChannel
+  v0RustServersServerIdPlayersSteamIdEventsReportedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsUnbannedChannel
+  v0RustServersServerIdPlayersSteamIdEventsUnbannedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsBannedChannel
+  v0RustServersServerIdPlayersSteamIdEventsBannedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsChatChannel
+  v0RustServersServerIdPlayersSteamIdEventsChatChannel
 };
 export {
   ServerPlayerConnected
@@ -350,7 +350,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/events/wiped`
+   * Subscribe to the `v0/rust/servers/{server_id}/events/wiped`
    * 
    * Channel for the API to process when a server has just wiped
    * 
@@ -359,7 +359,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdEventsWiped(
+  public subscribeToV0RustServersServerIdEventsWiped(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : null, server_id ? : string) => void, server_id: string,
@@ -370,7 +370,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdEventsWipedChannel.subscribe(
+          const sub = await v0RustServersServerIdEventsWipedChannel.subscribe(
             onDataCallback, nc, server_id,
             options
           );
@@ -390,7 +390,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/events/started`
+   * Subscribe to the `v0/rust/servers/{server_id}/events/started`
    * 
    * Channel for the API to process for when a server has started
    * 
@@ -399,7 +399,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdEventsStarted(
+  public subscribeToV0RustServersServerIdEventsStarted(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : null, server_id ? : string) => void, server_id: string,
@@ -410,7 +410,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdEventsStartedChannel.subscribe(
+          const sub = await v0RustServersServerIdEventsStartedChannel.subscribe(
             onDataCallback, nc, server_id,
             options
           );
@@ -430,7 +430,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/events/stopping`
+   * Subscribe to the `v0/rust/servers/{server_id}/events/stopping`
    * 
    * Channel for the API to process for when a server is about to stop (cant send information if already stopped)
    * 
@@ -439,7 +439,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdEventsStopping(
+  public subscribeToV0RustServersServerIdEventsStopping(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : null, server_id ? : string) => void, server_id: string,
@@ -450,7 +450,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdEventsStoppingChannel.subscribe(
+          const sub = await v0RustServersServerIdEventsStoppingChannel.subscribe(
             onDataCallback, nc, server_id,
             options
           );
@@ -470,7 +470,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/connected`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/connected`
    * 
    * Channel for the API to process for when a player connects to a server
    * 
@@ -480,7 +480,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsConnected(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsConnected(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerConnected, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
@@ -491,7 +491,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsConnectedChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsConnectedChannel.subscribe(
             onDataCallback, nc, server_id, steam_id,
             options
           );
@@ -511,7 +511,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/disconnected`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/disconnected`
    * 
    * Channel for the API to process for when a player disconnects from a server
    * 
@@ -521,7 +521,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsDisconnected(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsDisconnected(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerDisconnected, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
@@ -532,7 +532,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsDisconnectedChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsDisconnectedChannel.subscribe(
             onDataCallback, nc, server_id, steam_id,
             options
           );
@@ -552,7 +552,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/resourcesGathered`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/resourcesGathered`
    * 
    * Channel for the API to process for when a player gathers some resources
    * 
@@ -562,7 +562,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsResourcesGathered(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsResourcesGathered(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerResourceGathered, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
@@ -573,7 +573,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel.subscribe(
             onDataCallback, nc, server_id, steam_id,
             options
           );
@@ -593,7 +593,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/respawned`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/respawned`
    * 
    * Channel for the API to process for when a player respawn
    * 
@@ -603,7 +603,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsRespawned(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsRespawned(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerRespawned, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
@@ -614,7 +614,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsRespawnedChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsRespawnedChannel.subscribe(
             onDataCallback, nc, server_id, steam_id,
             options
           );
@@ -634,7 +634,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/combat/playerhit`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/combat/playerhit`
    * 
    * Channel for the API to process for when a player hits another player
    * 
@@ -644,7 +644,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsCombatPlayerhit(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsCombatPlayerhit(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerCombatPlayerhit, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
@@ -655,7 +655,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel.subscribe(
             onDataCallback, nc, server_id, steam_id,
             options
           );
@@ -675,7 +675,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/pickup`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/pickup`
    * 
    * Channel for the API to process for when a player pickup items ingame
    * 
@@ -686,7 +686,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsItemsItemIdPickup(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerItemPickup, server_id ? : string, steam_id ? : string, item_id ? : string) => void, server_id: string, steam_id: string, item_id: string,
@@ -697,7 +697,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel.subscribe(
             onDataCallback, nc, server_id, steam_id, item_id,
             options
           );
@@ -717,7 +717,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/loot`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/loot`
    * 
    * Channel for the API to process for when a player loots an item ingame
    * 
@@ -728,7 +728,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsItemsItemIdLoot(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdLoot(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerItemLoot, server_id ? : string, steam_id ? : string, item_id ? : string) => void, server_id: string, steam_id: string, item_id: string,
@@ -739,7 +739,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel.subscribe(
             onDataCallback, nc, server_id, steam_id, item_id,
             options
           );
@@ -759,7 +759,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/crafted`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/crafted`
    * 
    * Channel for the API to process for when a player crafts items ingame
    * 
@@ -770,7 +770,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsItemsItemIdCrafted(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdCrafted(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerItemCrafted, server_id ? : string, steam_id ? : string, item_id ? : string) => void, server_id: string, steam_id: string, item_id: string,
@@ -781,7 +781,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel.subscribe(
             onDataCallback, nc, server_id, steam_id, item_id,
             options
           );
@@ -801,7 +801,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/events/command`
+   * Subscribe to the `v0/rust/servers/{server_id}/events/command`
    * 
    * Channel for the API to process for when a server command is run
    * 
@@ -810,7 +810,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdEventsCommand(
+  public subscribeToV0RustServersServerIdEventsCommand(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerCommand, server_id ? : string) => void, server_id: string,
@@ -821,7 +821,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdEventsCommandChannel.subscribe(
+          const sub = await v0RustServersServerIdEventsCommandChannel.subscribe(
             onDataCallback, nc, server_id,
             options
           );
@@ -841,7 +841,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/reported`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/reported`
    * 
    * Channel for the API to process for when a player is reported
    * 
@@ -851,7 +851,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsReported(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsReported(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerReported, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
@@ -862,7 +862,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsReportedChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsReportedChannel.subscribe(
             onDataCallback, nc, server_id, steam_id,
             options
           );
@@ -882,7 +882,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/unbanned`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/unbanned`
    * 
    * Channel for notifying a server unbanned a player
    * 
@@ -892,7 +892,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsUnbanned(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsUnbanned(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerUnbanned, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
@@ -903,7 +903,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsUnbannedChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsUnbannedChannel.subscribe(
             onDataCallback, nc, server_id, steam_id,
             options
           );
@@ -923,7 +923,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/banned`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/banned`
    * 
    * Channel for notifying a server banned a player
    * 
@@ -933,7 +933,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsBanned(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsBanned(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerBanned, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
@@ -944,7 +944,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsBannedChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsBannedChannel.subscribe(
             onDataCallback, nc, server_id, steam_id,
             options
           );
@@ -964,7 +964,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
     });
   }
   /**
-   * Subscribe to the `rust/servers/{server_id}/players/{steam_id}/events/chat`
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/chat`
    * 
    * Channel for when a player chats ingame
    * 
@@ -974,7 +974,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param flush ensure client is force flushed after subscribing
    * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public subscribeToRustServersServerIdPlayersSteamIdEventsChat(
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsChat(
     onDataCallback: (
       err ? : NatsTypescriptTemplateError,
       msg ? : ChatMessage, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
@@ -985,7 +985,7 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       const nc: Client = this.jsonClient!;
       if (nc) {
         try {
-          const sub = await rustServersServerIdPlayersSteamIdEventsChatChannel.subscribe(
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsChatChannel.subscribe(
             onDataCallback, nc, server_id, steam_id,
             options
           );

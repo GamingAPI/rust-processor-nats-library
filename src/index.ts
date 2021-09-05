@@ -24,22 +24,22 @@ import {
   ServerInfo,
   SubscriptionOptions
 } from 'ts-nats';
-import * as rustServersServerIdEventsWipedChannel from "./channels/RustServersServerIdEventsWiped";
-import * as rustServersServerIdEventsStartedChannel from "./channels/RustServersServerIdEventsStarted";
-import * as rustServersServerIdEventsStoppingChannel from "./channels/RustServersServerIdEventsStopping";
-import * as rustServersServerIdPlayersSteamIdEventsConnectedChannel from "./channels/RustServersServerIdPlayersSteamIdEventsConnected";
-import * as rustServersServerIdPlayersSteamIdEventsDisconnectedChannel from "./channels/RustServersServerIdPlayersSteamIdEventsDisconnected";
-import * as rustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel from "./channels/RustServersServerIdPlayersSteamIdEventsResourcesGathered";
-import * as rustServersServerIdPlayersSteamIdEventsRespawnedChannel from "./channels/RustServersServerIdPlayersSteamIdEventsRespawned";
-import * as rustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel from "./channels/RustServersServerIdPlayersSteamIdEventsCombatPlayerhit";
-import * as rustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel from "./channels/RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup";
-import * as rustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel from "./channels/RustServersServerIdPlayersSteamIdEventsItemsItemIdLoot";
-import * as rustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel from "./channels/RustServersServerIdPlayersSteamIdEventsItemsItemIdCrafted";
-import * as rustServersServerIdEventsCommandChannel from "./channels/RustServersServerIdEventsCommand";
-import * as rustServersServerIdPlayersSteamIdEventsReportedChannel from "./channels/RustServersServerIdPlayersSteamIdEventsReported";
-import * as rustServersServerIdPlayersSteamIdEventsUnbannedChannel from "./channels/RustServersServerIdPlayersSteamIdEventsUnbanned";
-import * as rustServersServerIdPlayersSteamIdEventsBannedChannel from "./channels/RustServersServerIdPlayersSteamIdEventsBanned";
-import * as rustServersServerIdPlayersSteamIdEventsChatChannel from "./channels/RustServersServerIdPlayersSteamIdEventsChat";
+import * as v0RustServersServerIdEventsWipedChannel from "./channels/V0RustServersServerIdEventsWiped";
+import * as v0RustServersServerIdEventsStartedChannel from "./channels/V0RustServersServerIdEventsStarted";
+import * as v0RustServersServerIdEventsStoppingChannel from "./channels/V0RustServersServerIdEventsStopping";
+import * as v0RustServersServerIdPlayersSteamIdEventsConnectedChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsConnected";
+import * as v0RustServersServerIdPlayersSteamIdEventsDisconnectedChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsDisconnected";
+import * as v0RustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsResourcesGathered";
+import * as v0RustServersServerIdPlayersSteamIdEventsRespawnedChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsRespawned";
+import * as v0RustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsCombatPlayerhit";
+import * as v0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup";
+import * as v0RustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsItemsItemIdLoot";
+import * as v0RustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsItemsItemIdCrafted";
+import * as v0RustServersServerIdEventsCommandChannel from "./channels/V0RustServersServerIdEventsCommand";
+import * as v0RustServersServerIdPlayersSteamIdEventsReportedChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsReported";
+import * as v0RustServersServerIdPlayersSteamIdEventsUnbannedChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsUnbanned";
+import * as v0RustServersServerIdPlayersSteamIdEventsBannedChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsBanned";
+import * as v0RustServersServerIdPlayersSteamIdEventsChatChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsChat";
 import {
   ServerPlayerConnected
 } from "./models/ServerPlayerConnected";
@@ -97,52 +97,52 @@ export enum AvailableEvents {
     yield = 'yield'
 }
 export {
-  rustServersServerIdEventsWipedChannel
+  v0RustServersServerIdEventsWipedChannel
 };
 export {
-  rustServersServerIdEventsStartedChannel
+  v0RustServersServerIdEventsStartedChannel
 };
 export {
-  rustServersServerIdEventsStoppingChannel
+  v0RustServersServerIdEventsStoppingChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsConnectedChannel
+  v0RustServersServerIdPlayersSteamIdEventsConnectedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsDisconnectedChannel
+  v0RustServersServerIdPlayersSteamIdEventsDisconnectedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel
+  v0RustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsRespawnedChannel
+  v0RustServersServerIdPlayersSteamIdEventsRespawnedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel
+  v0RustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel
+  v0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel
+  v0RustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel
+  v0RustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel
 };
 export {
-  rustServersServerIdEventsCommandChannel
+  v0RustServersServerIdEventsCommandChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsReportedChannel
+  v0RustServersServerIdPlayersSteamIdEventsReportedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsUnbannedChannel
+  v0RustServersServerIdPlayersSteamIdEventsUnbannedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsBannedChannel
+  v0RustServersServerIdPlayersSteamIdEventsBannedChannel
 };
 export {
-  rustServersServerIdPlayersSteamIdEventsChatChannel
+  v0RustServersServerIdPlayersSteamIdEventsChatChannel
 };
 export {
   ServerPlayerConnected
@@ -376,19 +376,19 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     });
   }
   /**
-   * Publish to the `rust/servers/{server_id}/events/wiped` channel 
+   * Publish to the `v0/rust/servers/{server_id}/events/wiped` channel 
    * 
    * Channel for the API to process when a server has just wiped
    * 
    * @param message to publish
    * @param server_id parameter to use in topic
    */
-  public publishToRustServersServerIdEventsWiped(
+  public publishToV0RustServersServerIdEventsWiped(
     message: null, server_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdEventsWipedChannel.publish(
+      return v0RustServersServerIdEventsWipedChannel.publish(
         message,
         nc, server_id
       );
@@ -397,19 +397,19 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/events/started` channel 
+   * Publish to the `v0/rust/servers/{server_id}/events/started` channel 
    * 
    * Channel for the API to process for when a server has started
    * 
    * @param message to publish
    * @param server_id parameter to use in topic
    */
-  public publishToRustServersServerIdEventsStarted(
+  public publishToV0RustServersServerIdEventsStarted(
     message: null, server_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdEventsStartedChannel.publish(
+      return v0RustServersServerIdEventsStartedChannel.publish(
         message,
         nc, server_id
       );
@@ -418,19 +418,19 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/events/stopping` channel 
+   * Publish to the `v0/rust/servers/{server_id}/events/stopping` channel 
    * 
    * Channel for the API to process for when a server is about to stop (cant send information if already stopped)
    * 
    * @param message to publish
    * @param server_id parameter to use in topic
    */
-  public publishToRustServersServerIdEventsStopping(
+  public publishToV0RustServersServerIdEventsStopping(
     message: null, server_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdEventsStoppingChannel.publish(
+      return v0RustServersServerIdEventsStoppingChannel.publish(
         message,
         nc, server_id
       );
@@ -439,7 +439,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/connected` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/connected` channel 
    * 
    * Channel for the API to process for when a player connects to a server
    * 
@@ -447,12 +447,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsConnected(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsConnected(
     message: ServerPlayerConnected, server_id: string, steam_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsConnectedChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsConnectedChannel.publish(
         message,
         nc, server_id, steam_id
       );
@@ -461,7 +461,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/disconnected` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/disconnected` channel 
    * 
    * Channel for the API to process for when a player disconnects from a server
    * 
@@ -469,12 +469,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsDisconnected(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsDisconnected(
     message: ServerPlayerDisconnected, server_id: string, steam_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsDisconnectedChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsDisconnectedChannel.publish(
         message,
         nc, server_id, steam_id
       );
@@ -483,7 +483,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/resourcesGathered` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/resourcesGathered` channel 
    * 
    * Channel for the API to process for when a player gathers some resources
    * 
@@ -491,12 +491,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsResourcesGathered(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsResourcesGathered(
     message: ServerPlayerResourceGathered, server_id: string, steam_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel.publish(
         message,
         nc, server_id, steam_id
       );
@@ -505,7 +505,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/respawned` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/respawned` channel 
    * 
    * Channel for the API to process for when a player respawn
    * 
@@ -513,12 +513,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsRespawned(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsRespawned(
     message: ServerPlayerRespawned, server_id: string, steam_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsRespawnedChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsRespawnedChannel.publish(
         message,
         nc, server_id, steam_id
       );
@@ -527,7 +527,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/combat/playerhit` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/combat/playerhit` channel 
    * 
    * Channel for the API to process for when a player hits another player
    * 
@@ -535,12 +535,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsCombatPlayerhit(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsCombatPlayerhit(
     message: ServerPlayerCombatPlayerhit, server_id: string, steam_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel.publish(
         message,
         nc, server_id, steam_id
       );
@@ -549,7 +549,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/pickup` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/pickup` channel 
    * 
    * Channel for the API to process for when a player pickup items ingame
    * 
@@ -558,12 +558,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    * @param item_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsItemsItemIdPickup(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup(
     message: ServerPlayerItemPickup, server_id: string, steam_id: string, item_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel.publish(
         message,
         nc, server_id, steam_id, item_id
       );
@@ -572,7 +572,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/loot` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/loot` channel 
    * 
    * Channel for the API to process for when a player loots an item ingame
    * 
@@ -581,12 +581,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    * @param item_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsItemsItemIdLoot(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdLoot(
     message: ServerPlayerItemLoot, server_id: string, steam_id: string, item_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel.publish(
         message,
         nc, server_id, steam_id, item_id
       );
@@ -595,7 +595,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/crafted` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/crafted` channel 
    * 
    * Channel for the API to process for when a player crafts items ingame
    * 
@@ -604,12 +604,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    * @param item_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsItemsItemIdCrafted(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdCrafted(
     message: ServerPlayerItemCrafted, server_id: string, steam_id: string, item_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel.publish(
         message,
         nc, server_id, steam_id, item_id
       );
@@ -618,19 +618,19 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/events/command` channel 
+   * Publish to the `v0/rust/servers/{server_id}/events/command` channel 
    * 
    * Channel for the API to process for when a server command is run
    * 
    * @param message to publish
    * @param server_id parameter to use in topic
    */
-  public publishToRustServersServerIdEventsCommand(
+  public publishToV0RustServersServerIdEventsCommand(
     message: ServerCommand, server_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdEventsCommandChannel.publish(
+      return v0RustServersServerIdEventsCommandChannel.publish(
         message,
         nc, server_id
       );
@@ -639,7 +639,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/reported` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/reported` channel 
    * 
    * Channel for the API to process for when a player is reported
    * 
@@ -647,12 +647,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsReported(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsReported(
     message: ServerPlayerReported, server_id: string, steam_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsReportedChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsReportedChannel.publish(
         message,
         nc, server_id, steam_id
       );
@@ -661,7 +661,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/unbanned` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/unbanned` channel 
    * 
    * Channel for notifying a server unbanned a player
    * 
@@ -669,12 +669,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsUnbanned(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsUnbanned(
     message: ServerPlayerUnbanned, server_id: string, steam_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsUnbannedChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsUnbannedChannel.publish(
         message,
         nc, server_id, steam_id
       );
@@ -683,7 +683,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/banned` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/banned` channel 
    * 
    * Channel for notifying a server banned a player
    * 
@@ -691,12 +691,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsBanned(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsBanned(
     message: ServerPlayerBanned, server_id: string, steam_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsBannedChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsBannedChannel.publish(
         message,
         nc, server_id, steam_id
       );
@@ -705,7 +705,7 @@ export class NatsAsyncApiClient extends events.EventEmitter {
     }
   }
   /**
-   * Publish to the `rust/servers/{server_id}/players/{steam_id}/events/chat` channel 
+   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/chat` channel 
    * 
    * Channel for when a player chats ingame
    * 
@@ -713,12 +713,12 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    */
-  public publishToRustServersServerIdPlayersSteamIdEventsChat(
+  public publishToV0RustServersServerIdPlayersSteamIdEventsChat(
     message: ChatMessage, server_id: string, steam_id: string
   ): Promise < void > {
     const nc: Client = this.jsonClient!;
     if (nc) {
-      return rustServersServerIdPlayersSteamIdEventsChatChannel.publish(
+      return v0RustServersServerIdPlayersSteamIdEventsChatChannel.publish(
         message,
         nc, server_id, steam_id
       );
