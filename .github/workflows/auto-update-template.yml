@@ -36,7 +36,7 @@ jobs:
       
       - name: Get the version of the API
         run: | 
-          echo "document_current_version=$(cat ./$asyncapi_document_name | jq -r '.info.version' | sed 's/v//')" >> $GITHUB_ENV
+          echo "document_current_version=$(cat ./Rust_server.json | jq -r '.info.version' | sed 's/v//')" >> $GITHUB_ENV
       
       - name: Which template change
         run: | 
@@ -49,9 +49,9 @@ jobs:
           major_template_current_version="${semver_template_current_version[0]}" \
           minor_template_current_version="${semver_template_current_version[1]}" \
           patch_template_current_version="${semver_template_current_version[2]}" \
-          if [ "$major_template_current_version" -gt "$major_template_last_version" ]; then echo "major_version_change=true" >> $GITHUB_ENV; fi \
-          if [ "$minor_template_current_version" -gt "$minor_template_last_version" ]; then echo "minor_version_change=true" >> $GITHUB_ENV; fi \
-          if [ "$patch_template_current_version" -gt "$patch_template_last_version" ]; then echo "patch_version_change=true" >> $GITHUB_ENV; fi \
+          if [[ "$major_template_current_version" -gt "$major_template_last_version" ]]; then echo "major_version_change=true" >> $GITHUB_ENV; fi \
+          if [[ "$minor_template_current_version" -gt "$minor_template_last_version" ]]; then echo "minor_version_change=true" >> $GITHUB_ENV; fi \
+          if [[ "$patch_template_current_version" -gt "$patch_template_last_version" ]]; then echo "patch_version_change=true" >> $GITHUB_ENV; fi \
       - name: Which document change
         run: | 
           semver_document_last_version=( ${document_last_version//./ } ) \
