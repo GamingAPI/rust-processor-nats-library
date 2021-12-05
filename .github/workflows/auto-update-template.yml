@@ -1,0 +1,105 @@
+name: Auto update generate client when template updates
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+env:
+  template_last_version: 0.0.0
+  template_current_version: 0.0.0
+  document_last_version: 0.0.0
+  document_current_version: 0.0.0
+  major_version_change: false
+  minor_version_change: false
+  patch_version_change: false
+  asyncapi_document_name: Rust_server.json
+jobs:
+  get-template-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Fetch the last template version being used
+        run: |
+          ./configs.json | \
+          jq -r ".template_last_version" | tee ${{ env.template_last_version }}
+      - name: Fetch the last asyncapi document version being used
+        run: |
+          ./configs.json | \
+          jq -r ".document_last_version" | tee ${{ env.document_last_version }}
+      - name: Fetch current template version
+        run: |
+          curl -sL https://api.github.com/repos/asyncapi/ts-nats-template/releases/latest | \
+          jq -r ".tag_name" | tee ${{ env.template_current_version }}
+          
+      - name: Get all the application AsyncAPI documents
+        if: ${{ env.major_version_change == true || env.minor_version_change == true || env.patch_version_change == true }}
+        uses: actions/checkout@v2  
+        with:
+          repository: EventstackTech/definitions
+          token: ${{ secrets.ACCESS_TOKEN }}
+          path: './definitions'
+      
+      - name: Get the version of the API
+        if: ${{ env.major_version_change == true || env.minor_version_change == true || env.patch_version_change == true }}
+        run: ./$asyncapi_document_name | jq -r ".info.version" | tee ${{ env.document_current_version }}
+      
+      - name: Which template change
+        run: | 
+          semver_template_last_version=( ${template_last_version//./ } )
+          major_template_last_version=${semver_template_last_version[0]}
+          minor_template_last_version=${semver_template_last_version[1]}
+          patch_template_last_version=${semver_template_last_version[2]}
+
+          semver_template_current_version=( ${template_current_version//./ } )
+          major_template_current_version="${semver_template_current_version[0]}"
+          minor_template_current_version="${semver_template_current_version[1]}"
+          patch_template_current_version="${semver_template_current_version[2]}"
+          if [[ major_template_current_version > major_template_last_version ]]; then env.major_version_change=true && echo "MAJOR VERSION"; elif [[ minor_template_current_version > minor_template_last_version ]]; then env.minor_version_change=true && echo "MINOR VERSION"; elif [[ patch_template_current_version > patch_template_last_version ]]; then env.patch_version_change=true && echo "PATCH VERSION"; fi
+      - name: Which document change
+        run: | 
+          semver_document_last_version=( ${document_last_version//./ } )
+          major_document_last_version=${semver_document_last_version[0]}
+          minor_document_last_version=${semver_document_last_version[1]}
+          patch_document_last_version=${semver_document_last_version[2]}
+
+          semver_document_current_version=( ${document_current_version//./ } )
+          major_document_current_version="${semver_document_current_version[0]}"
+          minor_document_current_version="${semver_document_current_version[1]}"
+          patch_document_current_version="${semver_document_current_version[2]}"
+          if [[ major_document_current_version > major_document_last_version ]]; then env.major_version_change=true && echo "MAJOR VERSION"; elif [[ minor_document_current_version > minor_document_last_version ]]; then env.minor_version_change=true && echo "MINOR VERSION"; elif [[ patch_document_current_version > patch_document_last_version ]]; then env.patch_version_change=true && echo "PATCH VERSION"; fi
+     
+      - name: Remove previous files
+        if: ${{ env.major_version_change == true || env.minor_version_change == true || env.patch_version_change == true }}
+        run: rm !({configs.json,.github, definitions})
+      - uses: actions/setup-node@v2
+
+        if: ${{ env.major_version_change == true || env.minor_version_change == true || env.patch_version_change == true }}
+        with:
+          node-version: '14'
+
+      - name: Generate files
+        if: ${{ env.major_version_change == true || env.minor_version_change == true || env.patch_version_change == true }}
+        run: npm i -g @asyncapi/generator && ag @asyncapi/ts-nats-template 
+
+      - name: Write new config file
+        if: ${{ env.major_version_change == true || env.minor_version_change == true || env.patch_version_change == true }}
+        run: |
+          echo "{template_last_version: $template_last_version, document_last_version: $document_last_version  }" > ./configs.json
+
+      - name: Create Pull Request for major version
+        if: ${{ env.major_version_change == true}}
+        uses: peter-evans/create-pull-request@v3
+        env: 
+          title: "feat!: auto update"
+          
+      - name: Create Pull Request for minor version
+        if: ${{ env.minor_version_change == true}}
+        uses: peter-evans/create-pull-request@v3
+        env: 
+          title: "feat: auto update"
+          
+      - name: Create Pull Request for patch version
+        if: ${{ env.patch_version_change == true}}
+        uses: peter-evans/create-pull-request@v3
+        env: 
+          title: "fix: auto update"
