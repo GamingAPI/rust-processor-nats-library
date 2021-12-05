@@ -74,7 +74,7 @@ jobs:
         run: echo "patch_version_change=true" >> $GITHUB_ENV
 
       - name: Remove previous files
-        if: ${{ major_version_change == true || minor_version_change == true || patch_version_change == true }}
+        if: ${{ env.minor_document_current_version > env.minor_document_last_version }}
         run: rm !({configs.json,.github, definitions})
       - uses: actions/setup-node@v2
 
