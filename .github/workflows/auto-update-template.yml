@@ -75,7 +75,7 @@ jobs:
 
       - name: Remove previous files
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
-        run: rm !({configs.json,.github, definitions})
+        run: rm !("configs.json"|".github"|"definitions")
       - uses: actions/setup-node@v2
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         with:
