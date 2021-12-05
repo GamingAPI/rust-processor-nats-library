@@ -19,19 +19,15 @@ jobs:
       - uses: actions/checkout@v2
       - name: Fetch the last template version being used
         run: |
-          ./configs.json | \
-          jq -r ".template_last_version" | tee ${{ env.template_last_version }}
+          ./configs.json | jq -r ".template_last_version" | tee ${{ env.template_last_version }}
       - name: Fetch the last asyncapi document version being used
         run: |
-          ./configs.json | \
-          jq -r ".document_last_version" | tee ${{ env.document_last_version }}
+          ./configs.json | jq -r ".document_last_version" | tee ${{ env.document_last_version }}
       - name: Fetch current template version
         run: |
-          curl -sL https://api.github.com/repos/asyncapi/ts-nats-template/releases/latest | \
-          jq -r ".tag_name" | tee ${{ env.template_current_version }}
+          curl -sL https://api.github.com/repos/asyncapi/ts-nats-template/releases/latest | jq -r ".tag_name" | tee ${{ env.template_current_version }}
           
       - name: Get all the application AsyncAPI documents
-        if: ${{ env.major_version_change == true || env.minor_version_change == true || env.patch_version_change == true }}
         uses: actions/checkout@v2  
         with:
           repository: EventstackTech/definitions
@@ -39,32 +35,31 @@ jobs:
           path: './definitions'
       
       - name: Get the version of the API
-        if: ${{ env.major_version_change == true || env.minor_version_change == true || env.patch_version_change == true }}
         run: ./$asyncapi_document_name | jq -r ".info.version" | tee ${{ env.document_current_version }}
       
       - name: Which template change
         run: | 
-          semver_template_last_version=( ${template_last_version//./ } )
-          major_template_last_version=${semver_template_last_version[0]}
-          minor_template_last_version=${semver_template_last_version[1]}
-          patch_template_last_version=${semver_template_last_version[2]}
+          semver_template_last_version=( ${template_last_version//./ } ) \
+          major_template_last_version=${semver_template_last_version[0]} \
+          minor_template_last_version=${semver_template_last_version[1]} \
+          patch_template_last_version=${semver_template_last_version[2]} \
 
-          semver_template_current_version=( ${template_current_version//./ } )
-          major_template_current_version="${semver_template_current_version[0]}"
-          minor_template_current_version="${semver_template_current_version[1]}"
-          patch_template_current_version="${semver_template_current_version[2]}"
+          semver_template_current_version=( ${template_current_version//./ } ) \
+          major_template_current_version="${semver_template_current_version[0]}" \
+          minor_template_current_version="${semver_template_current_version[1]}" \
+          patch_template_current_version="${semver_template_current_version[2]}" \
           if [[ major_template_current_version > major_template_last_version ]]; then env.major_version_change=true && echo "MAJOR VERSION"; elif [[ minor_template_current_version > minor_template_last_version ]]; then env.minor_version_change=true && echo "MINOR VERSION"; elif [[ patch_template_current_version > patch_template_last_version ]]; then env.patch_version_change=true && echo "PATCH VERSION"; fi
       - name: Which document change
         run: | 
-          semver_document_last_version=( ${document_last_version//./ } )
-          major_document_last_version=${semver_document_last_version[0]}
-          minor_document_last_version=${semver_document_last_version[1]}
-          patch_document_last_version=${semver_document_last_version[2]}
+          semver_document_last_version=( ${document_last_version//./ } ) \
+          major_document_last_version=${semver_document_last_version[0]} \
+          minor_document_last_version=${semver_document_last_version[1]} \
+          patch_document_last_version=${semver_document_last_version[2]} \
 
-          semver_document_current_version=( ${document_current_version//./ } )
-          major_document_current_version="${semver_document_current_version[0]}"
-          minor_document_current_version="${semver_document_current_version[1]}"
-          patch_document_current_version="${semver_document_current_version[2]}"
+          semver_document_current_version=( ${document_current_version//./ } ) \
+          major_document_current_version="${semver_document_current_version[0]}" \
+          minor_document_current_version="${semver_document_current_version[1]}" \
+          patch_document_current_version="${semver_document_current_version[2]}" \
           if [[ major_document_current_version > major_document_last_version ]]; then env.major_version_change=true && echo "MAJOR VERSION"; elif [[ minor_document_current_version > minor_document_last_version ]]; then env.minor_version_change=true && echo "MINOR VERSION"; elif [[ patch_document_current_version > patch_document_last_version ]]; then env.patch_version_change=true && echo "PATCH VERSION"; fi
      
       - name: Remove previous files
