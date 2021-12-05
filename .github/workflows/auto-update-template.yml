@@ -22,7 +22,7 @@ jobs:
           cmd: 'cat ./configs.json | jq -r ".document_last_version"'
       - name: Fetch the last asyncapi document version being used
         run: |
-          echo "document_last_version=${{ steps.version.outputs.value }}" >> $GITHUB_ENV
+          echo "document_last_version=${steps.version.outputs.value}" >> $GITHUB_ENV
       - name: Fetch the last template version being used
         run: |
           template_last_version=$(cat ./configs.json | jq -r ".template_last_version") \
