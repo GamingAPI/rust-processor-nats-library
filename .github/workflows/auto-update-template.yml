@@ -43,7 +43,7 @@ jobs:
       - name: Get the version of the API
         run: echo "document_current_version=$(cat ./definitions/Rust_server.json | jq -r '.info.version' | sed 's/v//')" >> $GITHUB_ENV
       
-      - run: semver_template_last_version=( ${template_last_version//./ } ) && echo "major_template_last_version=$(semver_template_last_version[0])" >> $GITHUB_ENV
+      - run: semver_template_last_version=( ${template_last_version//./ } ) && major_template_last_version="${semver_template_last_version[0]}" && echo "major_template_last_version=$(major_template_last_version)" >> $GITHUB_ENV
       - run: semver_template_last_version=( ${template_last_version//./ } ) && echo "minor_template_last_version=$(semver_template_last_version[1])" >> $GITHUB_ENV
       - run: semver_template_last_version=( ${template_last_version//./ } ) && echo "patch_template_last_version=$(semver_template_last_version[2])" >> $GITHUB_ENV
 
@@ -68,7 +68,7 @@ jobs:
           patch_document_last_version=${semver_document_last_version[2]} \
 
           semver_document_current_version=( ${document_current_version//./ } ) \
-          major_document_current_version="${semver_document_current_version[0]}" \
+           \
           minor_document_current_version="${semver_document_current_version[1]}" \
           patch_document_current_version="${semver_document_current_version[2]}" \
           if  major_document_current_version > major_document_last_version ; then echo "major_version_change=true" >> $GITHUB_ENV; elif  minor_document_current_version > minor_document_last_version ; then echo "minor_version_change=true" >> $GITHUB_ENV; elif  patch_document_current_version > patch_document_last_version; then echo "patch_version_change=true" >> $GITHUB_ENV; fi
