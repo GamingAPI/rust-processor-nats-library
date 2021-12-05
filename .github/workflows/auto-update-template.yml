@@ -83,7 +83,7 @@ jobs:
 
       - name: Generate files
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
-        run: npm i -g @asyncapi/generator && ag @asyncapi/ts-nats-template 
+        run: npm i -g @asyncapi/generator && ag @asyncapi/ts-nats-template ./definitions/Rust_server.json .
 
       - name: Write new config file
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
