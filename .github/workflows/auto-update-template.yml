@@ -47,13 +47,12 @@ jobs:
       - run: minor_template_current_version="${semver_template_current_version[1]}"
       - run: patch_template_current_version="${semver_template_current_version[2]}"
 
-      - if: ${{ "$major_template_current_version" -gt "$major_template_last_version" }}
+      - if: ${{ major_template_current_version -gt major_template_last_version }}
         run: echo "major_version_change=true" >> $GITHUB_ENV
-      - if: ${{ "$minor_template_current_version" -gt "$minor_template_last_version" }}
+      - if: ${{ $minor_template_current_version -gt $minor_template_last_version }}
         run: echo "minor_version_change=true" >> $GITHUB_ENV
-      - if: ${{ "$patch_template_current_version" -gt "$patch_template_last_version" }}
+      - if: ${{ $patch_template_current_version -gt $patch_template_last_version }}
         run: echo "patch_version_change=true" >> $GITHUB_ENV
-
 
       - run: semver_template_last_version=( ${template_last_version//./ } )
       - name: Which document change
