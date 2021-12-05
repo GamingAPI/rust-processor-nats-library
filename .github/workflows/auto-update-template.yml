@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.GENERATOR_ACCESS }}
       - name: Fetch the last template version being used
         run: |
           ./configs.json | \
@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v2  
         with:
           repository: EventstackTech/definitions
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.GENERATOR_ACCESS }}
           path: './definitions'
       
       - name: Get the version of the API
