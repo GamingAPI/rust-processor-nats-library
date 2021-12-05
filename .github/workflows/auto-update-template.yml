@@ -28,7 +28,7 @@ jobs:
       - name: Fetch current template version
         run: |
           template_current_version=$(curl -sL https://api.github.com/repos/asyncapi/ts-nats-template/releases/latest | jq -r '.tag_name' | sed 's/v//') \
-          echo "template_current_version=$(template_current_version)" >> $GITHUB_ENV
+          echo "template_current_version=$template_current_version" >> $GITHUB_ENV
 
       - name: Get all the application AsyncAPI documents
         uses: actions/checkout@v2  
