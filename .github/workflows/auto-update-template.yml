@@ -25,13 +25,13 @@ jobs:
           echo "template_last_version=$(cat ./configs.json | jq -r '.template_last_version')" >> $GITHUB_ENV
       - name: Fetch current template version
         run: |
-          echo "template_current_version=$(curl -sL https://api.github.com/repos/asyncapi/ts-nats-template/releases/latest | jq -r '.tag_name')" >> $GITHUB_ENV
+          echo "template_current_version=$(curl -sL https://api.github.com/repos/asyncapi/ts-nats-template/releases/latest | jq -r '.tag_name' | sed 's/v//')" >> $GITHUB_ENV
 
       - name: Get all the application AsyncAPI documents
         uses: actions/checkout@v2  
         with:
           repository: EventstackTech/definitions
-          token: ${{ secrets.GENERATOR_ACCESS }}
+          token: ${{ secrets.READ_TOKEN }}
           path: "./definitions"
       
       - name: Get the version of the API
