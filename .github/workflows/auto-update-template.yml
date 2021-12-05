@@ -35,28 +35,27 @@ jobs:
           path: "./definitions"
       
       - name: Get the version of the API
-        run: | 
-          echo "document_current_version=$(cat ./Rust_server.json | jq -r '.info.version' | sed 's/v//')" >> $GITHUB_ENV
+        run: echo "document_current_version=$(cat ./Rust_server.json | jq -r '.info.version' | sed 's/v//')" >> $GITHUB_ENV
       
-      - name: Which template change
-        run: | 
-          semver_template_last_version=( ${template_last_version//./ } ) \
-          major_template_last_version=${semver_template_last_version[0]} \
-          minor_template_last_version=${semver_template_last_version[1]} \
-          patch_template_last_version=${semver_template_last_version[2]} \
-          semver_template_current_version=( ${template_current_version//./ } ) \
-          major_template_current_version="${semver_template_current_version[0]}" \
-          minor_template_current_version="${semver_template_current_version[1]}" \
-          patch_template_current_version="${semver_template_current_version[2]}" \
-          if "$major_template_current_version" -gt "$major_template_last_version"; then 
-            echo "major_version_change=true" >> $GITHUB_ENV
-          fi 
-          if "$minor_template_current_version" -gt "$minor_template_last_version"; then 
-            echo "minor_version_change=true" >> $GITHUB_ENV
-          fi 
-          if "$patch_template_current_version" -gt "$patch_template_last_version"; then 
-            echo "patch_version_change=true" >> $GITHUB_ENV
-          fi 
+      - run: semver_template_last_version=( ${template_last_version//./ } )
+      - run: major_template_last_version=${semver_template_last_version[0]}
+      - run: minor_template_last_version=${semver_template_last_version[1]}
+      - run: patch_template_last_version=${semver_template_last_version[2]}
+
+      - run: semver_template_current_version=( ${template_current_version//./ } )
+      - run: major_template_current_version="${semver_template_current_version[0]}"
+      - run: minor_template_current_version="${semver_template_current_version[1]}"
+      - run: patch_template_current_version="${semver_template_current_version[2]}"
+
+      - if: ${{ "$major_template_current_version" -gt "$major_template_last_version" }}
+        run: echo "major_version_change=true" >> $GITHUB_ENV
+      - if: ${{ "$minor_template_current_version" -gt "$minor_template_last_version" }}
+        run: echo "minor_version_change=true" >> $GITHUB_ENV
+      - if: ${{ "$patch_template_current_version" -gt "$patch_template_last_version" }}
+        run: echo "patch_version_change=true" >> $GITHUB_ENV
+
+
+      - run: semver_template_last_version=( ${template_last_version//./ } )
       - name: Which document change
         run: | 
           semver_document_last_version=( ${document_last_version//./ } ) \
