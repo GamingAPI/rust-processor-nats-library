@@ -55,11 +55,11 @@ jobs:
       - run: echo "minor_template_current_version=$(semver_template_current_version[1])" >> $GITHUB_ENV
       - run: echo "patch_template_current_version=$(semver_template_current_version[2])" >> $GITHUB_ENV
 
-      - if: ${{ env.major_template_current_version -gt env.major_template_last_version }}
+      - if: ${{ env.major_template_current_version > env.major_template_last_version }}
         run: echo "major_version_change=true" >> $GITHUB_ENV
-      - if: ${{ env.minor_template_current_version -gt env.minor_template_last_version }}
+      - if: ${{ env.minor_template_current_version > env.minor_template_last_version }}
         run: echo "minor_version_change=true" >> $GITHUB_ENV
-      - if: ${{ env.patch_template_current_version -gt env.patch_template_last_version }}
+      - if: ${{ env.patch_template_current_version > env.patch_template_last_version }}
         run: echo "patch_version_change=true" >> $GITHUB_ENV
 
       - run: semver_template_last_version=( ${template_last_version//./ } )
