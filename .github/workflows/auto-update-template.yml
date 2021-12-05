@@ -19,24 +19,24 @@ jobs:
       - uses: actions/checkout@v2
       - name: Fetch the last template version being used
         run: |
-          echo 'template_last_version=${cat ./configs.json | jq -r ".template_last_version"}' >> $GITHUB_ENV
+          echo "template_last_version=${cat ./configs.json | jq -r '.template_last_version'}" >> $GITHUB_ENV
       - name: Fetch the last asyncapi document version being used
         run: |
-          echo 'document_last_version=${cat ./configs.json | jq -r ".document_last_version"}' >> $GITHUB_ENV
+          echo "document_last_version=${cat ./configs.json | jq -r '.document_last_version'}" >> $GITHUB_ENV
       - name: Fetch current template version
         run: |
-          echo 'template_current_version=$(curl -sL https://api.github.com/repos/asyncapi/ts-nats-template/releases/latest | jq -r ".tag_name" | sed "s/v//")' >> $GITHUB_ENV
+          echo "template_current_version=$(curl -sL https://api.github.com/repos/asyncapi/ts-nats-template/releases/latest | jq -r '.tag_name' | sed 's/v//')" >> $GITHUB_ENV
 
       - name: Get all the application AsyncAPI documents
         uses: actions/checkout@v2  
         with:
           repository: EventstackTech/definitions
           token: ${{ secrets.GENERATOR_ACCESS }}
-          path: './definitions'
+          path: "./definitions"
       
       - name: Get the version of the API
         run: 
-          echo 'document_current_version=${./$asyncapi_document_name | jq -r ".info.version" | tee ${{ env.document_current_version }} | sed "s/v//"}' >> $GITHUB_ENV
+          echo "document_current_version=${./$asyncapi_document_name | jq -r '.info.version' | tee ${{ env.document_current_version }} | sed 's/v//'}" >> $GITHUB_ENV
       
       - name: Which template change
         run: | 
