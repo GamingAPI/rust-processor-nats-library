@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Fetch the last asyncapi document version being used
         run: |
-          document_last_version=${cat ./configs.json | jq -r ".document_last_version"} | \
+          document_last_version=$(cat ./configs.json | jq -r ".document_last_version") | \
           echo "document_last_version=${document_last_version}" >> $GITHUB_ENV
       - name: Fetch the last template version being used
         run: |
