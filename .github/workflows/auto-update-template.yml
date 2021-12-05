@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GENERATOR_ACCESS }}
+          token: ${{ secrets.github.token }}
       - name: Fetch the last template version being used
         run: |
           ./configs.json | \
