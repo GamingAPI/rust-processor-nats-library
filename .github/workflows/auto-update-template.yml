@@ -74,37 +74,36 @@ jobs:
         run: echo "patch_version_change=true" >> $GITHUB_ENV
 
       - name: Remove previous files
-        if: ${{env.minor_version_change == 'true'}}
+        if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         run: rm !({configs.json,.github, definitions})
       - uses: actions/setup-node@v2
-
-        if: ${{ env.minor_version_change == true }}
+        if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         with:
           node-version: '14'
 
       - name: Generate files
-        if: ${{ env.major_version_change == true || env.minor_version_change == true || env.patch_version_change == true }}
+        if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         run: npm i -g @asyncapi/generator && ag @asyncapi/ts-nats-template 
 
       - name: Write new config file
-        if: ${{ env.major_version_change == true || env.minor_version_change == true || env.patch_version_change == true }}
+        if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         run: |
           echo "{template_last_version: $template_last_version, document_last_version: $document_last_version}" > ./configs.json
 
       - name: Create Pull Request for major version
-        if: ${{ env.major_version_change == true}}
+        if: ${{ env.major_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
         env: 
           title: "feat!: auto update"
           
       - name: Create Pull Request for minor version
-        if: ${{ env.minor_version_change == true}}
+        if: ${{ env.minor_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
         env: 
           title: "feat: auto update"
           
       - name: Create Pull Request for patch version
-        if: ${{ env.patch_version_change == true}}
+        if: ${{ env.patch_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
         env: 
           title: "fix: auto update"
