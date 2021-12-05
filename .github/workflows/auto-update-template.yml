@@ -49,7 +49,7 @@ jobs:
           major_template_current_version="${semver_template_current_version[0]}" \
           minor_template_current_version="${semver_template_current_version[1]}" \
           patch_template_current_version="${semver_template_current_version[2]}" \
-          if [[ major_template_current_version > major_template_last_version ]]; then env.major_version_change=true && echo "MAJOR VERSION"; elif [[ minor_template_current_version > minor_template_last_version ]]; then env.minor_version_change=true && echo "MINOR VERSION"; elif [[ patch_template_current_version > patch_template_last_version ]]; then env.patch_version_change=true && echo "PATCH VERSION"; fi
+          if (( major_template_current_version > major_template_last_version )); then env.major_version_change=true && echo "MAJOR VERSION"; elif (( minor_template_current_version > minor_template_last_version )); then env.minor_version_change=true && echo "MINOR VERSION"; elif (( patch_template_current_version > patch_template_last_version )); then env.patch_version_change=true && echo "PATCH VERSION"; fi
       - name: Which document change
         run: | 
           semver_document_last_version=( ${document_last_version//./ } ) \
@@ -61,7 +61,7 @@ jobs:
           major_document_current_version="${semver_document_current_version[0]}" \
           minor_document_current_version="${semver_document_current_version[1]}" \
           patch_document_current_version="${semver_document_current_version[2]}" \
-          if [[ major_document_current_version > major_document_last_version ]]; then env.major_version_change=true && echo "MAJOR VERSION"; elif [[ minor_document_current_version > minor_document_last_version ]]; then env.minor_version_change=true && echo "MINOR VERSION"; elif [[ patch_document_current_version > patch_document_last_version ]]; then env.patch_version_change=true && echo "PATCH VERSION"; fi
+          if (( major_document_current_version > major_document_last_version )); then env.major_version_change=true && echo "MAJOR VERSION"; elif (( minor_document_current_version > minor_document_last_version )); then env.minor_version_change=true && echo "MINOR VERSION"; elif (( patch_document_current_version > patch_document_last_version )); then env.patch_version_change=true && echo "PATCH VERSION"; fi
      
       - name: Remove previous files
         if: ${{ env.major_version_change == true || env.minor_version_change == true || env.patch_version_change == true }}
