@@ -43,7 +43,7 @@ jobs:
       - name: Get the version of the API
         run: echo "document_current_version=$(cat ./definitions/Rust_server.json | jq -r '.info.version' | sed 's/v//')" >> $GITHUB_ENV
       
-      - run: semver_template_last_version=( ${template_last_version//./ } ) && major_template_last_version="${semver_template_last_version[0]}" && echo "major_template_last_version=$(major_template_last_version)" >> $GITHUB_ENV
+      - run: semver_template_last_version=( ${template_last_version//./ } ) | major_template_last_version="${semver_template_last_version[0]}" | echo "major_template_last_version=$(major_template_last_version)" >> $GITHUB_ENV
       - run: semver_template_last_version=( ${template_last_version//./ } ) && echo "minor_template_last_version=$(semver_template_last_version[1])" >> $GITHUB_ENV
       - run: semver_template_last_version=( ${template_last_version//./ } ) && echo "patch_template_last_version=$(semver_template_last_version[2])" >> $GITHUB_ENV
 
