@@ -8,49 +8,47 @@ env:
   template_current_version: 0.0.0
   document_last_version: 0.0.0
   document_current_version: 0.0.0
-  major_version_change: false
-  minor_version_change: false
-  patch_version_change: false
   major_template_last_version: 0
   minor_template_last_version: 0
   patch_template_last_version: 0
   major_template_current_version: 0
   minor_template_current_version: 0
   patch_template_current_version: 0
-  asyncapi_document_name: Rust_server.json
+  major_version_change: false
+  minor_version_change: false
+  patch_version_change: false
 jobs:
   get-template-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Fetch the last asyncapi document version being used
+
+      # Find all relevant semver versions needed to figure out how to update the client
+      - name: Fetch the last AsyncAPI document version that generated the client
         run: |
           echo "document_last_version=$(cat ./configs.json | jq -r '.document_last_version')" >> $GITHUB_ENV
-      - name: Fetch the last template version being used
+      - name: Fetch the last template version that generated the client
         run: |
           echo "template_last_version=$(cat ./configs.json | jq -r '.template_last_version')" >> $GITHUB_ENV
       - name: Fetch current template version
         run: |
           echo "template_current_version=$(curl -sL https://api.github.com/repos/asyncapi/ts-nats-template/releases/latest | jq -r '.tag_name' | sed 's/v//')" >> $GITHUB_ENV
-
       - name: Get all the application AsyncAPI documents
         uses: actions/checkout@v2  
         with:
           repository: EventstackTech/definitions
           token: ${{ secrets.READ_TOKEN }}
           path: "./definitions"
-      
       - name: Get the version of the API
         run: echo "document_current_version=$(cat ./definitions/Rust_server.json | jq -r '.info.version' | sed 's/v//')" >> $GITHUB_ENV
       
+      # Figure out how the template version have changed
       - run: semver_template_last_version=( ${template_last_version//./ } ) && major_template_last_version=${semver_template_last_version[0]} && echo "major_template_last_version=$major_template_last_version" >> $GITHUB_ENV
       - run: semver_template_last_version=( ${template_last_version//./ } ) && minor_template_last_version=${semver_template_last_version[1]} && echo "minor_template_last_version=$minor_template_last_version" >> $GITHUB_ENV
       - run: semver_template_last_version=( ${template_last_version//./ } ) && patch_template_last_version=${semver_template_last_version[2]} && echo "patch_template_last_version=$patch_template_last_version" >> $GITHUB_ENV
-
       - run: semver_template_current_version=( ${template_current_version//./ } ) && major_template_current_version=${semver_template_current_version[0]} && echo "major_template_current_version=$major_template_current_version" >> $GITHUB_ENV
       - run: semver_template_current_version=( ${template_current_version//./ } ) && minor_template_current_version=${semver_template_current_version[1]} && echo "minor_template_current_version=$minor_template_current_version" >> $GITHUB_ENV
       - run: semver_template_current_version=( ${template_current_version//./ } ) && patch_template_current_version=${semver_template_current_version[2]} && echo "patch_template_current_version=$patch_template_current_version" >> $GITHUB_ENV
-
       - if: ${{ env.major_template_current_version > env.major_template_last_version }}
         run: echo "major_version_change=true" >> $GITHUB_ENV
       - if: ${{ env.minor_template_current_version > env.minor_template_last_version }}
@@ -58,14 +56,13 @@ jobs:
       - if: ${{ env.patch_template_current_version > env.patch_template_last_version }}
         run: echo "patch_version_change=true" >> $GITHUB_ENV
 
+      # Figure out how the AsyncAPI document have changed
       - run: semver_document_last_version=( ${document_last_version//./ } ) && major_document_last_version=${semver_document_last_version[0]} && echo "major_document_last_version=$major_document_last_version" >> $GITHUB_ENV
       - run: semver_document_last_version=( ${document_last_version//./ } ) && minor_document_last_version=${semver_document_last_version[1]} && echo "minor_document_last_version=$minor_document_last_version" >> $GITHUB_ENV
       - run: semver_document_last_version=( ${document_last_version//./ } ) && patch_document_last_version=${semver_document_last_version[2]} && echo "patch_document_last_version=$patch_document_last_version" >> $GITHUB_ENV
-
       - run: semver_document_current_version=( ${document_current_version//./ } ) && major_document_current_version=${semver_document_current_version[0]} && echo "major_document_current_version=$major_document_current_version" >> $GITHUB_ENV
       - run: semver_document_current_version=( ${document_current_version//./ } ) && minor_document_current_version=${semver_document_current_version[1]} && echo "minor_document_current_version=$minor_document_current_version" >> $GITHUB_ENV
       - run: semver_document_current_version=( ${document_current_version//./ } ) && patch_document_current_version=${semver_document_current_version[2]} && echo "patch_document_current_version=$patch_document_current_version" >> $GITHUB_ENV
-
       - if: ${{ env.major_document_current_version > env.major_document_last_version }}
         run: echo "major_version_change=true" >> $GITHUB_ENV
       - if: ${{ env.minor_document_current_version > env.minor_document_last_version }}
@@ -73,10 +70,10 @@ jobs:
       - if: ${{ env.patch_document_current_version > env.patch_document_last_version }}
         run: echo "patch_version_change=true" >> $GITHUB_ENV
 
-      - name: Remove previous files
+      # Make changes to the client code if needed
+      - name: Remove previous files to ensure clean slate
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         run: find . -not \( -name configs.json -or -iwholename *.github* -or -iwholename *definitions* -or -iwholename *.git* \) -exec rm -rf \;
-
       - name: Generating client from the AsyncAPI document
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         uses: docker://asyncapi/github-action-for-generator:2.0.0
@@ -84,25 +81,28 @@ jobs:
           template: '@asyncapi/ts-nats-template'
           filepath: ./definitions/Rust_server.json
           output: ./
-      - name: Write new config file
+      - name: Write new config file to ensure we keep the new state for next time
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         run: |
           echo "{\"template_last_version\": \"$template_current_version\", \"document_last_version\": \"$document_current_version\"}" > ./configs.json
 
-      - name: Create Pull Request for major version
+      # Follow conventional commit for PR's to ensure accurate updates
+      - name: Create Pull Request for major version if needed
         if: ${{ env.major_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
         with:
           title: "feat!: auto update"
-          
-      - name: Create Pull Request for minor version
+      - name: Create Pull Request for minor version if needed
         if: ${{ env.minor_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
         with:
           title: "feat: auto update"
-          
-      - name: Create Pull Request for patch version
+      - name: Create Pull Request for patch version if needed
         if: ${{ env.patch_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
         with:
           title: "fix: auto update"
+          
+      # Clean up
+      - name: Remove excess files
+        run: rm -rf ./definitions
