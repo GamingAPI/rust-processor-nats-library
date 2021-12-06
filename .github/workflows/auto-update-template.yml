@@ -77,7 +77,7 @@ jobs:
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         run: find . -not \( -name configs.json -or -iwholename *.github* -or -iwholename *definitions* -or -iwholename *.git* \) -exec rm -rf \;
 
-      - name: Generating HTML from my AsyncAPI document
+      - name: Generating client from the AsyncAPI document
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         uses: docker://asyncapi/github-action-for-generator:2.0.0
         with:
@@ -87,7 +87,7 @@ jobs:
       - name: Write new config file
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         run: |
-          echo "{template_last_version: $template_last_version, document_last_version: $document_last_version}" > ./configs.json
+          echo "{\"template_last_version\": \"$template_last_version\", \"document_last_version\": \"$document_last_version\"}" > ./configs.json
 
       - name: Create Pull Request for major version
         if: ${{ env.major_version_change == 'true'}}
@@ -104,5 +104,5 @@ jobs:
       - name: Create Pull Request for patch version
         if: ${{ env.patch_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
-        env: 
+        with:
           title: "fix: auto update"
