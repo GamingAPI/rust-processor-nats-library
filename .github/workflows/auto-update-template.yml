@@ -55,7 +55,7 @@ jobs:
       - if: ${{ env.minor_template_current_version > env.minor_template_last_version }}
         run: |
           echo "minor_version_change=true" >> $GITHUB_ENV
-          echo "commit_message+='Template have changed to a new minor version. This means that the client need to have a minor version upgrade as well'" >> $GITHUB_ENV
+          echo "commit_message='$commit_message Template have changed to a new minor version. This means that the client need to have a minor version upgrade as well.'" >> $GITHUB_ENV
       - if: ${{ env.patch_template_current_version > env.patch_template_last_version }}
         run: echo "patch_version_change=true" >> $GITHUB_ENV
 
@@ -70,7 +70,7 @@ jobs:
         run: echo "major_version_change=true" >> $GITHUB_ENV
       - if: ${{ env.minor_document_current_version > env.minor_document_last_version }}
         run: echo "minor_version_change=true" >> $GITHUB_ENV
-          echo "commit_message+='AsyncAPI document have changed to a new minor version. This means that the client need to have a minor version upgrade as well'" >> $GITHUB_ENV
+          echo "commit_message='$commit_message AsyncAPI document have changed to a new minor version. This means that the client need to have a minor version upgrade as well.'" >> $GITHUB_ENV
       - if: ${{ env.patch_document_current_version > env.patch_document_last_version }}
         run: echo "patch_version_change=true" >> $GITHUB_ENV
 
