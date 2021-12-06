@@ -75,16 +75,15 @@ jobs:
 
       - name: Remove previous files
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
-        run: find . -type f -not \( -name 'configs.json' -or -name '.github' -or -name 'definitions' \) -delete
-      - uses: actions/setup-node@v2
+        run: find . -not \( -name configs.json -or -iwholename *.github* -or -iwholename *definitions -or -iwholename *.git* \) -delete
+
+      - name: Generating HTML from my AsyncAPI document
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
+        uses: docker://asyncapi/github-action-for-generator:2.0.0
         with:
-          node-version: '14'
-
-      - name: Generate files
-        if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
-        run: npm i -g @asyncapi/generator && ag ./definitions/Rust_server.json @asyncapi/ts-nats-template --output . 
-
+          template: '@asyncapi/ts-nats-template'
+          filepath: ./definitions/Rust_server.json
+          output: ./
       - name: Write new config file
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         run: |
