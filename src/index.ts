@@ -1,29 +1,9 @@
-import {
-  AvailableHooks,
-  ReceivedDataHook,
-  BeforeSendingDataHook,
-  Hooks
-} from './hooks';
 import * as TestClient from './testclient/';
-import {
-  fromSeed
-} from 'ts-nkeys';
 import {
   ErrorCode,
   NatsTypescriptTemplateError
 } from './NatsTypescriptTemplateError';
-import {
-  Client,
-  NatsConnectionOptions,
-  connect,
-  Payload,
-  NatsError,
-  Subscription,
-  ServersChangedEvent,
-  SubEvent,
-  ServerInfo,
-  SubscriptionOptions
-} from 'ts-nats';
+import * as Nats from 'nats';
 import * as v0RustServersServerIdEventsWipedChannel from "./channels/V0RustServersServerIdEventsWiped";
 import * as v0RustServersServerIdEventsStartedChannel from "./channels/V0RustServersServerIdEventsStarted";
 import * as v0RustServersServerIdEventsStoppingChannel from "./channels/V0RustServersServerIdEventsStopping";
@@ -79,23 +59,6 @@ import {
 import {
   ChatMessage
 } from "./models/ChatMessage";
-import * as events from 'events';
-export enum AvailableEvents {
-  permissionError = 'permissionError',
-    close = 'close',
-    connect = 'connect',
-    connecting = 'connecting',
-    disconnect = 'disconnect',
-    error = 'error',
-    pingcount = 'pingcount',
-    pingtimer = 'pingtimer',
-    reconnect = 'reconnect',
-    reconnecting = 'reconnecting',
-    serversChanged = 'serversChanged',
-    subscribe = 'subscribe',
-    unsubscribe = 'unsubscribe',
-    yield = 'yield'
-}
 export {
   v0RustServersServerIdEventsWipedChannel
 };
@@ -190,62 +153,34 @@ export {
 export {
   TestClient
 };
-export {
-  AvailableHooks,
-  ReceivedDataHook,
-  BeforeSendingDataHook,
-  Hooks
-}
-export {
-  Client,
-  ServerInfo,
-  ServersChangedEvent,
-  SubEvent
-}
-export declare interface NatsAsyncApiClient {
-  on(event: AvailableEvents.permissionError, listener: (error: NatsTypescriptTemplateError) => void): this;
-  on(event: AvailableEvents.close, listener: (error: NatsTypescriptTemplateError) => void): this;
-  on(event: AvailableEvents.connect, listener: (connection: Client, serverURL: string, info: ServerInfo) => void): this;
-  on(event: AvailableEvents.connecting, listener: (error: NatsTypescriptTemplateError) => void): this;
-  on(event: AvailableEvents.disconnect, listener: (serverURL: string) => void): this;
-  on(event: AvailableEvents.error, listener: (error: NatsTypescriptTemplateError) => void): this;
-  on(event: AvailableEvents.pingcount, listener: () => void): this;
-  on(event: AvailableEvents.pingtimer, listener: () => void): this;
-  on(event: AvailableEvents.reconnect, listener: (connection: Client, serverURL: string, info: ServerInfo) => void): this;
-  on(event: AvailableEvents.reconnecting, listener: (serverURL: string) => void): this;
-  on(event: AvailableEvents.serversChanged, listener: (e: ServersChangedEvent) => void): this;
-  on(event: AvailableEvents.subscribe, listener: (e: SubEvent) => void): this;
-  on(event: AvailableEvents.unsubscribe, listener: (e: SubEvent) => void): this;
-  on(event: AvailableEvents.yield, listener: () => void): this;
-}
 /**
  * @class NatsAsyncApiClient
  * 
  * The generated client based on your AsyncAPI document.
  */
-export class NatsAsyncApiClient extends events.EventEmitter {
-  private jsonClient ? : Client;
-  private stringClient ? : Client;
-  private binaryClient ? : Client;
-  private options ? : NatsConnectionOptions;
-  constructor() {
-    super();
-  }
+export class NatsAsyncApiClient {
+  private nc ? : Nats.NatsConnection;
+  private codec ? : Nats.Codec < any > ;
+  private options ? : Nats.ConnectionOptions;
   /**
    * Try to connect to the NATS server with the different payloads.
    * @param options to use, payload is omitted if sat in the AsyncAPI document.
    */
-  connect(options: NatsConnectionOptions): Promise < void > {
+  connect(options: Nats.ConnectionOptions, codec ? : Nats.Codec < any > ): Promise < void > {
     return new Promise(async (resolve: () => void, reject: (error: any) => void) => {
+      if (!this.isClosed()) {
+        return reject('Client is still connected, please close it first.');
+      }
       this.options = options;
+      if (codec) {
+        this.codec = codec;
+      } else {
+        this.codec = Nats.JSONCodec();
+      }
       try {
-        if (!this.jsonClient || this.jsonClient!.isClosed()) {
-          this.options.payload = Payload.JSON;
-          this.jsonClient = await connect(this.options);
-          this.chainEvents(this.jsonClient);
-        }
+        this.nc = await Nats.connect(this.options);
         resolve();
-      } catch (e) {
+      } catch (e: any) {
         reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, e));
       }
     })
@@ -254,62 +189,18 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * Disconnect all clients from the server
    */
   async disconnect() {
-    if (!this.isClosed()) {
-      await this.jsonClient!.drain();
+    if (!this.isClosed() && this.nc !== undefined) {
+      await this.nc.drain();
     }
   }
   /**
    * Returns whether or not any of the clients are closed
    */
   isClosed() {
-    if (!this.jsonClient || this.jsonClient!.isClosed()) {
+    if (!this.nc || this.nc!.isClosed()) {
       return true;
     }
     return false;
-  }
-  private chainEvents(ns: Client) {
-    ns.on('permissionError', (e: NatsError) => {
-      this.emit(AvailableEvents.permissionError, NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, e))
-    });
-    ns.on('close', (e: NatsError) => {
-      this.emit(AvailableEvents.close, NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, e))
-    });
-    ns.on('connect', (connection: Client, serverURL: string, info: ServerInfo) => {
-      this.emit(AvailableEvents.connect, connection, serverURL, info)
-    });
-    ns.on('connecting', (serverURL: string) => {
-      this.emit(AvailableEvents.connecting, serverURL)
-    });
-    ns.on('disconnect', (serverURL: string) => {
-      this.emit(AvailableEvents.disconnect, serverURL)
-    });
-    ns.on('error', (e: NatsError) => {
-      this.emit(AvailableEvents.error, NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, e))
-    });
-    ns.on('pingcount', () => {
-      this.emit(AvailableEvents.pingcount)
-    });
-    ns.on('pingtimer', () => {
-      this.emit(AvailableEvents.pingtimer)
-    });
-    ns.on('reconnect', (connection: Client, serverURL: string, info: ServerInfo) => {
-      this.emit(AvailableEvents.reconnect, connection, serverURL, info)
-    });
-    ns.on('reconnecting', (serverURL: string) => {
-      this.emit(AvailableEvents.reconnecting, serverURL)
-    });
-    ns.on('serversChanged', (e: ServersChangedEvent) => {
-      this.emit(AvailableEvents.serversChanged, e)
-    });
-    ns.on('subscribe', (e: SubEvent) => {
-      this.emit(AvailableEvents.subscribe, e)
-    });
-    ns.on('unsubscribe', (e: SubEvent) => {
-      this.emit(AvailableEvents.unsubscribe, e)
-    });
-    ns.on('yield', () => {
-      this.emit(AvailableEvents.yield)
-    });
   }
   /**
    * Try to connect to the NATS server with user credentials
@@ -317,11 +208,11 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param userCreds to use
    * @param options to connect with
    */
-  async connectWithUserCreds(userCreds: string, options ? : NatsConnectionOptions) {
+  async connectWithUserCreds(userCreds: string, options ? : Nats.ConnectionOptions, codec ? : Nats.Codec < any > ) {
     await this.connect({
-      userCreds: userCreds,
+      user: userCreds,
       ...options
-    });
+    }, codec);
   }
   /**
    * Try to connect to the NATS server with user and password
@@ -330,50 +221,33 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param pass password to use
    * @param options to connect with
    */
-  async connectWithUserPass(user: string, pass: string, options ? : NatsConnectionOptions) {
+  async connectWithUserPass(user: string, pass: string, options ? : Nats.ConnectionOptions, codec ? : Nats.Codec < any > ) {
     await this.connect({
       user: user,
       pass: pass,
       ...options
-    });
+    }, codec);
   }
   /**
    * Try to connect to the NATS server which has no authentication
    
-   * @param host to connect to
-   * @param options to connect with
-   */
-  async connectToHost(host: string, options ? : NatsConnectionOptions) {
+    * @param host to connect to
+    * @param options to connect with
+    */
+  async connectToHost(host: string, options ? : Nats.ConnectionOptions, codec ? : Nats.Codec < any > ) {
     await this.connect({
       servers: [host],
       ...options
-    });
-  }
-  /**
-   * Try to connect to the NATS server with NKey authentication
-   * 
-   * @param publicNkey User
-   * @param seed private key
-   * @param options to connect with
-   */
-  async connectWithNkey(publicNkey: string, seed: string, options ? : NatsConnectionOptions) {
-    await this.connect({
-      nkey: publicNkey,
-      nonceSigner: (nonce: string): Buffer => {
-        const sk = fromSeed(Buffer.from(seed));
-        return sk.sign(Buffer.from(nonce));
-      },
-      ...options
-    });
+    }, codec);
   }
   /**
    * Connects the client to the AsyncAPI server called production.
    * Test broker
    */
-  async connectToProduction() {
+  async connectToProduction(codec ? : Nats.Codec < any > ) {
     await this.connect({
       servers: ["test.nats.org:{port}"]
-    });
+    }, codec);
   }
   /**
    * Publish to the `v0/rust/servers/{server_id}/events/wiped` channel 
@@ -384,13 +258,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    */
   public publishToV0RustServersServerIdEventsWiped(
-    message: null, server_id: string
+    message: null, server_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdEventsWipedChannel.publish(
         message,
-        nc, server_id
+        this.nc,
+        this.codec, server_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -405,13 +281,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    */
   public publishToV0RustServersServerIdEventsStarted(
-    message: null, server_id: string
+    message: null, server_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdEventsStartedChannel.publish(
         message,
-        nc, server_id
+        this.nc,
+        this.codec, server_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -426,13 +304,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    */
   public publishToV0RustServersServerIdEventsStopping(
-    message: null, server_id: string
+    message: null, server_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdEventsStoppingChannel.publish(
         message,
-        nc, server_id
+        this.nc,
+        this.codec, server_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -448,13 +328,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsConnected(
-    message: ServerPlayerConnected, server_id: string, steam_id: string
+    message: ServerPlayerConnected, server_id: string, steam_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsConnectedChannel.publish(
         message,
-        nc, server_id, steam_id
+        this.nc,
+        this.codec, server_id, steam_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -470,13 +352,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsDisconnected(
-    message: ServerPlayerDisconnected, server_id: string, steam_id: string
+    message: ServerPlayerDisconnected, server_id: string, steam_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsDisconnectedChannel.publish(
         message,
-        nc, server_id, steam_id
+        this.nc,
+        this.codec, server_id, steam_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -492,13 +376,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsResourcesGathered(
-    message: ServerPlayerResourceGathered, server_id: string, steam_id: string
+    message: ServerPlayerResourceGathered, server_id: string, steam_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel.publish(
         message,
-        nc, server_id, steam_id
+        this.nc,
+        this.codec, server_id, steam_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -514,13 +400,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsRespawned(
-    message: ServerPlayerRespawned, server_id: string, steam_id: string
+    message: ServerPlayerRespawned, server_id: string, steam_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsRespawnedChannel.publish(
         message,
-        nc, server_id, steam_id
+        this.nc,
+        this.codec, server_id, steam_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -536,13 +424,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsCombatPlayerhit(
-    message: ServerPlayerCombatPlayerhit, server_id: string, steam_id: string
+    message: ServerPlayerCombatPlayerhit, server_id: string, steam_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel.publish(
         message,
-        nc, server_id, steam_id
+        this.nc,
+        this.codec, server_id, steam_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -559,13 +449,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param item_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup(
-    message: ServerPlayerItemPickup, server_id: string, steam_id: string, item_id: string
+    message: ServerPlayerItemPickup, server_id: string, steam_id: string, item_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel.publish(
         message,
-        nc, server_id, steam_id, item_id
+        this.nc,
+        this.codec, server_id, steam_id, item_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -582,13 +474,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param item_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdLoot(
-    message: ServerPlayerItemLoot, server_id: string, steam_id: string, item_id: string
+    message: ServerPlayerItemLoot, server_id: string, steam_id: string, item_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel.publish(
         message,
-        nc, server_id, steam_id, item_id
+        this.nc,
+        this.codec, server_id, steam_id, item_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -605,13 +499,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param item_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdCrafted(
-    message: ServerPlayerItemCrafted, server_id: string, steam_id: string, item_id: string
+    message: ServerPlayerItemCrafted, server_id: string, steam_id: string, item_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel.publish(
         message,
-        nc, server_id, steam_id, item_id
+        this.nc,
+        this.codec, server_id, steam_id, item_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -626,13 +522,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param server_id parameter to use in topic
    */
   public publishToV0RustServersServerIdEventsCommand(
-    message: ServerCommand, server_id: string
+    message: ServerCommand, server_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdEventsCommandChannel.publish(
         message,
-        nc, server_id
+        this.nc,
+        this.codec, server_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -648,13 +546,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsReported(
-    message: ServerPlayerReported, server_id: string, steam_id: string
+    message: ServerPlayerReported, server_id: string, steam_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsReportedChannel.publish(
         message,
-        nc, server_id, steam_id
+        this.nc,
+        this.codec, server_id, steam_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -670,13 +570,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsUnbanned(
-    message: ServerPlayerUnbanned, server_id: string, steam_id: string
+    message: ServerPlayerUnbanned, server_id: string, steam_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsUnbannedChannel.publish(
         message,
-        nc, server_id, steam_id
+        this.nc,
+        this.codec, server_id, steam_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -692,13 +594,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsBanned(
-    message: ServerPlayerBanned, server_id: string, steam_id: string
+    message: ServerPlayerBanned, server_id: string, steam_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsBannedChannel.publish(
         message,
-        nc, server_id, steam_id
+        this.nc,
+        this.codec, server_id, steam_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
@@ -714,13 +618,15 @@ export class NatsAsyncApiClient extends events.EventEmitter {
    * @param steam_id parameter to use in topic
    */
   public publishToV0RustServersServerIdPlayersSteamIdEventsChat(
-    message: ChatMessage, server_id: string, steam_id: string
+    message: ChatMessage, server_id: string, steam_id: string,
+    options ? : Nats.PublishOptions
   ): Promise < void > {
-    const nc: Client = this.jsonClient!;
-    if (nc) {
+    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
       return v0RustServersServerIdPlayersSteamIdEventsChatChannel.publish(
         message,
-        nc, server_id, steam_id
+        this.nc,
+        this.codec, server_id, steam_id,
+        options
       );
     } else {
       return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));

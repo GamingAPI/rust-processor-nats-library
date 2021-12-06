@@ -28,8 +28,7 @@ export class Hooks {
    */
   public async registerBeforeSendingData(hook: BeforeSendingDataHook) {
     this.hooks[AvailableHooks.BeforeSendingData] ?
-      this.hooks[AvailableHooks.BeforeSendingData].push(hook) :
-      [hook];
+      this.hooks[AvailableHooks.BeforeSendingData].push(hook) : [hook];
   }
   /**
    * Register a hook for BeforeSendingData
@@ -37,8 +36,7 @@ export class Hooks {
    */
   public async registerReceivedData(hook: ReceivedDataHook) {
     this.hooks[AvailableHooks.ReceivedData] ?
-      this.hooks[AvailableHooks.ReceivedData].push(hook) :
-      [hook];
+      this.hooks[AvailableHooks.ReceivedData].push(hook) : [hook];
   }
   /**
    * Returns all registered hooks for ReceivedData
