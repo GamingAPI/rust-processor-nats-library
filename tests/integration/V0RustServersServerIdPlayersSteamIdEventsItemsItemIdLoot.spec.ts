@@ -60,7 +60,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/
       }, 3000)
       setInterval(async () => {
         if (subscription.getReceived() === 1) {
-          resolve();
+          resolve(undefined);
           isReturned = true
         }
       }, 100);

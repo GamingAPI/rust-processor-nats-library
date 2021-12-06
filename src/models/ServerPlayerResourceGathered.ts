@@ -8,7 +8,7 @@ export class ServerPlayerResourceGathered {
   private _amount: number;
   private _gatheringItem: ActiveItem;
   private _gatheringPosition?: PlayerPosition;
-  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null | number>;
+  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null>;
 
   constructor(input: {
     gatheredTimestamp: string,
@@ -49,8 +49,8 @@ export class ServerPlayerResourceGathered {
   get gatheringPosition(): PlayerPosition | undefined { return this._gatheringPosition; }
   set gatheringPosition(gatheringPosition: PlayerPosition | undefined) { this._gatheringPosition = gatheringPosition; }
 
-  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined { return this._additionalProperties; }
-  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined) { this._additionalProperties = additionalProperties; }
+  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null> | undefined { return this._additionalProperties; }
+  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null> | undefined) { this._additionalProperties = additionalProperties; }
 
   public marshal() : string {
     let json = '{'
