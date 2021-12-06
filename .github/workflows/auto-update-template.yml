@@ -87,7 +87,7 @@ jobs:
       - name: Write new config file
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         run: |
-          echo "{\"template_last_version\": \"$template_last_version\", \"document_last_version\": \"$document_last_version\"}" > ./configs.json
+          echo "{\"template_last_version\": \"$template_current_version\", \"document_last_version\": \"$document_current_version\"}" > ./configs.json
 
       - name: Create Pull Request for major version
         if: ${{ env.major_version_change == 'true'}}
