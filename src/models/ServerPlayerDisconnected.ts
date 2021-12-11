@@ -4,7 +4,7 @@ export class ServerPlayerDisconnected {
   private _disconnectedTimestamp: string;
   private _player: ServerPlayerDisconnectedPlayer;
   private _reason?: string;
-  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null | number>;
+  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null>;
 
   constructor(input: {
     disconnectedTimestamp: string,
@@ -25,8 +25,8 @@ export class ServerPlayerDisconnected {
   get reason(): string | undefined { return this._reason; }
   set reason(reason: string | undefined) { this._reason = reason; }
 
-  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined { return this._additionalProperties; }
-  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined) { this._additionalProperties = additionalProperties; }
+  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null> | undefined { return this._additionalProperties; }
+  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null> | undefined) { this._additionalProperties = additionalProperties; }
 
   public marshal() : string {
     let json = '{'

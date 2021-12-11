@@ -2,19 +2,19 @@
 
 export class ServerCommand {
   private _command?: string;
-  private _arguments?: string;
+  private _reservedArguments?: string;
   private _steamId?: string;
   private _timestamp: string;
-  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null | number>;
+  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null>;
 
   constructor(input: {
     command?: string,
-    arguments?: string,
+    reservedArguments?: string,
     steamId?: string,
     timestamp: string,
   }) {
     this._command = input.command;
-    this._arguments = input.arguments;
+    this._reservedArguments = input.reservedArguments;
     this._steamId = input.steamId;
     this._timestamp = input.timestamp;
   }
@@ -22,8 +22,8 @@ export class ServerCommand {
   get command(): string | undefined { return this._command; }
   set command(command: string | undefined) { this._command = command; }
 
-  get arguments(): string | undefined { return this._arguments; }
-  set arguments(arguments: string | undefined) { this._arguments = arguments; }
+  get reservedArguments(): string | undefined { return this._reservedArguments; }
+  set reservedArguments(reservedArguments: string | undefined) { this._reservedArguments = reservedArguments; }
 
   get steamId(): string | undefined { return this._steamId; }
   set steamId(steamId: string | undefined) { this._steamId = steamId; }
@@ -31,16 +31,16 @@ export class ServerCommand {
   get timestamp(): string { return this._timestamp; }
   set timestamp(timestamp: string) { this._timestamp = timestamp; }
 
-  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined { return this._additionalProperties; }
-  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined) { this._additionalProperties = additionalProperties; }
+  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null> | undefined { return this._additionalProperties; }
+  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null> | undefined) { this._additionalProperties = additionalProperties; }
 
   public marshal() : string {
     let json = '{'
     if(this.command !== undefined) {
       json += `"command": ${typeof this.command === 'number' || typeof this.command === 'boolean' ? this.command : JSON.stringify(this.command)},`; 
     }
-    if(this.arguments !== undefined) {
-      json += `"arguments": ${typeof this.arguments === 'number' || typeof this.arguments === 'boolean' ? this.arguments : JSON.stringify(this.arguments)},`; 
+    if(this.reservedArguments !== undefined) {
+      json += `"arguments": ${typeof this.reservedArguments === 'number' || typeof this.reservedArguments === 'boolean' ? this.reservedArguments : JSON.stringify(this.reservedArguments)},`; 
     }
     if(this.steamId !== undefined) {
       json += `"steam_id": ${typeof this.steamId === 'number' || typeof this.steamId === 'boolean' ? this.steamId : JSON.stringify(this.steamId)},`; 
@@ -69,7 +69,7 @@ export class ServerCommand {
       instance.command = obj["command"];
     }
     if (obj["arguments"] !== undefined) {
-      instance.arguments = obj["arguments"];
+      instance.reservedArguments = obj["arguments"];
     }
     if (obj["steam_id"] !== undefined) {
       instance.steamId = obj["steam_id"];
