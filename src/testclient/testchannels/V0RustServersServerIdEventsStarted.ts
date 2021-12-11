@@ -1,17 +1,8 @@
-import {
-  Client,
-  NatsError,
-  Subscription,
-  SubscriptionOptions,
-  Payload
-} from 'ts-nats';
+import * as Nats from 'nats';
 import {
   ErrorCode,
   NatsTypescriptTemplateError
 } from '../../NatsTypescriptTemplateError';
-import {
-  Hooks
-} from '../../hooks';
 /**
  * Module which wraps functionality for the `v0/rust/servers/{server_id}/events/started` channel
  * @module v0RustServersServerIdEventsStarted
@@ -20,7 +11,8 @@ import {
  * Internal functionality to setup subscription on the `v0/rust/servers/{server_id}/events/started` channel 
  * 
  * @param onDataCallback to call when messages are received
- * @param client to subscribe with
+ * @param nc to subscribe with
+ * @param codec used to convert messages
  * @param server_id parameter to use in topic
  * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
  */
@@ -28,18 +20,18 @@ export function subscribe(
   onDataCallback: (
     err ? : NatsTypescriptTemplateError,
     msg ? : null, server_id ? : string) => void,
-  client: Client, server_id: string,
-  options ? : SubscriptionOptions
-): Promise < Subscription > {
+  nc: Nats.NatsConnection,
+  codec: Nats.Codec < any > , server_id: string,
+  options ? : Nats.SubscriptionOptions
+): Promise < Nats.Subscription > {
   return new Promise(async (resolve, reject) => {
-    let subscribeOptions: SubscriptionOptions = {
+    let subscribeOptions: Nats.SubscriptionOptions = {
       ...options
     };
     try {
-      let subscription = await client.subscribe(`v0.rust.servers.${server_id}.events.started`, (err, msg) => {
-        if (err) {
-          onDataCallback(NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, err));
-        } else {
+      let subscription = nc.subscribe(`v0.rust.servers.${server_id}.events.started`, subscribeOptions);
+      (async () => {
+        for await (const msg of subscription) {
           const unmodifiedChannel = `v0.rust.servers.{server_id}.events.started`;
           let channel = msg.subject;
           const serverIdSplit = unmodifiedChannel.split("{server_id}");
@@ -52,9 +44,10 @@ export function subscribe(
           const serverIdParam = "" + channel.substring(0, serverIdEnd);
           onDataCallback(undefined, null, serverIdParam);
         }
-      }, subscribeOptions);
+        console.log("subscription closed");
+      })();
       resolve(subscription);
-    } catch (e) {
+    } catch (e: any) {
       reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, e));
     }
   })

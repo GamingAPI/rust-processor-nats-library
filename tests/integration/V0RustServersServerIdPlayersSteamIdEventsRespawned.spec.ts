@@ -54,7 +54,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/respawned can ta
       }, 3000)
       setInterval(async () => {
         if (subscription.getReceived() === 1) {
-          resolve();
+          resolve(undefined);
           isReturned = true
         }
       }, 100);
