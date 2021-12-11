@@ -98,7 +98,7 @@ jobs:
           committer: jonaslagoni <jonas-lt@live.dk>
           author: jonaslagoni <jonas-lt@live.dk>
           delete-branch: true
-          body: "${commit_message}. \n\n Library require a new major version change."
+          body: ${{commit_message}}. \n\n Library require a new major version change.
       - name: Create Pull Request for minor version if needed
         if: ${{env.minor_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
@@ -107,7 +107,7 @@ jobs:
           committer: jonaslagoni <jonas-lt@live.dk>
           author: jonaslagoni <jonas-lt@live.dk>
           delete-branch: true
-          body: "${commit_message}. \n\n Library require a new minor version change."
+          body: ${{commit_message}}. \n\n Library require a new minor version change.
       - name: Create Pull Request for patch version if needed
         if: ${{env.patch_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
@@ -116,4 +116,4 @@ jobs:
           committer: jonaslagoni <jonas-lt@live.dk>
           author: jonaslagoni <jonas-lt@live.dk>
           delete-branch: true
-          body: "${commit_message}. \n\n Library require a new patch version change."
+          body: ${{commit_message}}. \n\n Library require a new patch version change.
