@@ -3,7 +3,7 @@
 export class ServerPlayerCombatPlayerhit {
   private _hitTimestamp: string;
   private _playerHit: PlayerOnPlayerHit;
-  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null | number>;
+  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null>;
 
   constructor(input: {
     hitTimestamp: string,
@@ -19,8 +19,8 @@ export class ServerPlayerCombatPlayerhit {
   get playerHit(): PlayerOnPlayerHit { return this._playerHit; }
   set playerHit(playerHit: PlayerOnPlayerHit) { this._playerHit = playerHit; }
 
-  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined { return this._additionalProperties; }
-  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined) { this._additionalProperties = additionalProperties; }
+  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null> | undefined { return this._additionalProperties; }
+  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null> | undefined) { this._additionalProperties = additionalProperties; }
 
   public marshal() : string {
     let json = '{'

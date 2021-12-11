@@ -2,7 +2,7 @@
 
 export class ServerPlayerDisconnectedPlayer {
   private _id: string;
-  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null | number>;
+  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null>;
 
   constructor(input: {
     id: string,
@@ -13,8 +13,8 @@ export class ServerPlayerDisconnectedPlayer {
   get id(): string { return this._id; }
   set id(id: string) { this._id = id; }
 
-  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined { return this._additionalProperties; }
-  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined) { this._additionalProperties = additionalProperties; }
+  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null> | undefined { return this._additionalProperties; }
+  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null> | undefined) { this._additionalProperties = additionalProperties; }
 
   public marshal() : string {
     let json = '{'

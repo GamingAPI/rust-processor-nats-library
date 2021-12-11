@@ -50,7 +50,7 @@ describe('v0/rust/servers/{server_id}/events/command can talk to itself', () => 
       }, 3000)
       setInterval(async () => {
         if (subscription.getReceived() === 1) {
-          resolve();
+          resolve(undefined);
           isReturned = true
         }
       }, 100);
