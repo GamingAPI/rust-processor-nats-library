@@ -4,7 +4,7 @@ export class ServerPlayerRespawned {
   private _steamId: string;
   private _respawnTimestamp: string;
   private _respawnPosition: PlayerPosition;
-  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null | number>;
+  private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null>;
 
   constructor(input: {
     steamId: string,
@@ -25,8 +25,8 @@ export class ServerPlayerRespawned {
   get respawnPosition(): PlayerPosition { return this._respawnPosition; }
   set respawnPosition(respawnPosition: PlayerPosition) { this._respawnPosition = respawnPosition; }
 
-  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined { return this._additionalProperties; }
-  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null | number> | undefined) { this._additionalProperties = additionalProperties; }
+  get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null> | undefined { return this._additionalProperties; }
+  set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null> | undefined) { this._additionalProperties = additionalProperties; }
 
   public marshal() : string {
     let json = '{'

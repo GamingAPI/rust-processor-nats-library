@@ -1,17 +1,8 @@
-import {
-  Client,
-  NatsError,
-  Subscription,
-  SubscriptionOptions,
-  Payload
-} from 'ts-nats';
+import * as Nats from 'nats';
 import {
   ErrorCode,
   NatsTypescriptTemplateError
 } from '../NatsTypescriptTemplateError';
-import {
-  Hooks
-} from '../hooks';
 /**
  * Module which wraps functionality for the `v0/rust/servers/{server_id}/events/started` channel
  * @module v0RustServersServerIdEventsStarted
@@ -21,19 +12,22 @@ import {
  * v0/rust/servers/{server_id}/events/started
  * 
  * @param message to publish
- * @param client to publish with
+ * @param nc to publish with
+ * @param codec used to convert messages
  * @param server_id parameter to use in topic
+ * @param options to publish with
  */
 export function publish(
   message: null,
-  client: Client, server_id: string
+  nc: Nats.NatsConnection,
+  codec: Nats.Codec < any > , server_id: string,
+  options ? : Nats.PublishOptions
 ): Promise < void > {
   return new Promise < void > (async (resolve, reject) => {
     try {
-      let dataToSend: any = message.marshal();
-      await nc.publish(`v0.rust.servers.${server_id}.events.started`, null);
+      await nc.publish(`v0.rust.servers.${server_id}.events.started`, Nats.Empty);
       resolve();
-    } catch (e) {
+    } catch (e: any) {
       reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, e));
     }
   });

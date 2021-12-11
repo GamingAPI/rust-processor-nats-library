@@ -1,20 +1,11 @@
 import {
   ServerPlayerRespawned
 } from '../../models/ServerPlayerRespawned';
-import {
-  Client,
-  NatsError,
-  Subscription,
-  SubscriptionOptions,
-  Payload
-} from 'ts-nats';
+import * as Nats from 'nats';
 import {
   ErrorCode,
   NatsTypescriptTemplateError
 } from '../../NatsTypescriptTemplateError';
-import {
-  Hooks
-} from '../../hooks';
 /**
  * Module which wraps functionality for the `v0/rust/servers/{server_id}/players/{steam_id}/events/respawned` channel
  * @module v0RustServersServerIdPlayersSteamIdEventsRespawned
@@ -23,7 +14,8 @@ import {
  * Internal functionality to setup subscription on the `v0/rust/servers/{server_id}/players/{steam_id}/events/respawned` channel 
  * 
  * @param onDataCallback to call when messages are received
- * @param client to subscribe with
+ * @param nc to subscribe with
+ * @param codec used to convert messages
  * @param server_id parameter to use in topic
  * @param steam_id parameter to use in topic
  * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
@@ -32,18 +24,18 @@ export function subscribe(
   onDataCallback: (
     err ? : NatsTypescriptTemplateError,
     msg ? : ServerPlayerRespawned, server_id ? : string, steam_id ? : string) => void,
-  client: Client, server_id: string, steam_id: string,
-  options ? : SubscriptionOptions
-): Promise < Subscription > {
+  nc: Nats.NatsConnection,
+  codec: Nats.Codec < any > , server_id: string, steam_id: string,
+  options ? : Nats.SubscriptionOptions
+): Promise < Nats.Subscription > {
   return new Promise(async (resolve, reject) => {
-    let subscribeOptions: SubscriptionOptions = {
+    let subscribeOptions: Nats.SubscriptionOptions = {
       ...options
     };
     try {
-      let subscription = await client.subscribe(`v0.rust.servers.${server_id}.players.${steam_id}.events.respawned`, (err, msg) => {
-        if (err) {
-          onDataCallback(NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, err));
-        } else {
+      let subscription = nc.subscribe(`v0.rust.servers.${server_id}.players.${steam_id}.events.respawned`, subscribeOptions);
+      (async () => {
+        for await (const msg of subscription) {
           const unmodifiedChannel = `v0.rust.servers.{server_id}.players.{steam_id}.events.respawned`;
           let channel = msg.subject;
           const serverIdSplit = unmodifiedChannel.split("{server_id}");
@@ -59,27 +51,13 @@ export function subscribe(
           channel = channel.substring(serverIdEnd + splits[1].length);
           const steamIdEnd = channel.indexOf(splits[2]);
           const steamIdParam = "" + channel.substring(0, steamIdEnd);
-          let receivedData: any = msg.data;
-          try {
-            try {
-              let receivedDataHooks = Hooks.getInstance().getReceivedDataHook();
-              for (let hook of receivedDataHooks) {
-                receivedData = hook(receivedData);
-              }
-              undefined
-            } catch (e) {
-              const error = NatsTypescriptTemplateError.errorForCode(ErrorCode.HOOK_ERROR, e);
-              throw error;
-            }
-          } catch (e) {
-            onDataCallback(e)
-            return;
-          }
+          let receivedData: any = codec.decode(msg.data);
           onDataCallback(undefined, ServerPlayerRespawned.unmarshal(receivedData), serverIdParam, steamIdParam);
         }
-      }, subscribeOptions);
+        console.log("subscription closed");
+      })();
       resolve(subscription);
-    } catch (e) {
+    } catch (e: any) {
       reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, e));
     }
   })

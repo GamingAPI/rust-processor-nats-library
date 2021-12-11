@@ -1,22 +1,8 @@
 import {
-  fromSeed
-} from 'ts-nkeys';
-import {
   ErrorCode,
   NatsTypescriptTemplateError
-} from '..//NatsTypescriptTemplateError';
-import {
-  Client,
-  NatsConnectionOptions,
-  connect,
-  Payload,
-  NatsError,
-  Subscription,
-  ServersChangedEvent,
-  SubEvent,
-  ServerInfo,
-  SubscriptionOptions
-} from 'ts-nats';
+} from '../NatsTypescriptTemplateError';
+import * as Nats from 'nats';
 import * as v0RustServersServerIdEventsWipedChannel from "./testchannels/V0RustServersServerIdEventsWiped";
 import * as v0RustServersServerIdEventsStartedChannel from "./testchannels/V0RustServersServerIdEventsStarted";
 import * as v0RustServersServerIdEventsStoppingChannel from "./testchannels/V0RustServersServerIdEventsStopping";
@@ -35,60 +21,43 @@ import * as v0RustServersServerIdPlayersSteamIdEventsBannedChannel from "./testc
 import * as v0RustServersServerIdPlayersSteamIdEventsChatChannel from "./testchannels/V0RustServersServerIdPlayersSteamIdEventsChat";
 import {
   ServerPlayerConnected
-} from "..//models/ServerPlayerConnected";
+} from "../models/ServerPlayerConnected";
 import {
   ServerPlayerDisconnected
-} from "..//models/ServerPlayerDisconnected";
+} from "../models/ServerPlayerDisconnected";
 import {
   ServerPlayerResourceGathered
-} from "..//models/ServerPlayerResourceGathered";
+} from "../models/ServerPlayerResourceGathered";
 import {
   ServerPlayerRespawned
-} from "..//models/ServerPlayerRespawned";
+} from "../models/ServerPlayerRespawned";
 import {
   ServerPlayerCombatPlayerhit
-} from "..//models/ServerPlayerCombatPlayerhit";
+} from "../models/ServerPlayerCombatPlayerhit";
 import {
   ServerPlayerItemPickup
-} from "..//models/ServerPlayerItemPickup";
+} from "../models/ServerPlayerItemPickup";
 import {
   ServerPlayerItemLoot
-} from "..//models/ServerPlayerItemLoot";
+} from "../models/ServerPlayerItemLoot";
 import {
   ServerPlayerItemCrafted
-} from "..//models/ServerPlayerItemCrafted";
+} from "../models/ServerPlayerItemCrafted";
 import {
   ServerCommand
-} from "..//models/ServerCommand";
+} from "../models/ServerCommand";
 import {
   ServerPlayerReported
-} from "..//models/ServerPlayerReported";
+} from "../models/ServerPlayerReported";
 import {
   ServerPlayerUnbanned
-} from "..//models/ServerPlayerUnbanned";
+} from "../models/ServerPlayerUnbanned";
 import {
   ServerPlayerBanned
-} from "..//models/ServerPlayerBanned";
+} from "../models/ServerPlayerBanned";
 import {
   ChatMessage
-} from "..//models/ChatMessage";
-import * as events from 'events';
-export enum AvailableEvents {
-  permissionError = 'permissionError',
-    close = 'close',
-    connect = 'connect',
-    connecting = 'connecting',
-    disconnect = 'disconnect',
-    error = 'error',
-    pingcount = 'pingcount',
-    pingtimer = 'pingtimer',
-    reconnect = 'reconnect',
-    reconnecting = 'reconnecting',
-    serversChanged = 'serversChanged',
-    subscribe = 'subscribe',
-    unsubscribe = 'unsubscribe',
-    yield = 'yield'
-}
+} from "../models/ChatMessage";
 export {
   v0RustServersServerIdEventsWipedChannel
 };
@@ -176,50 +145,34 @@ export {
 export {
   ChatMessage
 };
-export declare interface NatsAsyncApiTestClient {
-  on(event: AvailableEvents.permissionError, listener: (error: NatsTypescriptTemplateError) => void): this;
-  on(event: AvailableEvents.close, listener: (error: NatsTypescriptTemplateError) => void): this;
-  on(event: AvailableEvents.connect, listener: (connection: Client, serverURL: string, info: ServerInfo) => void): this;
-  on(event: AvailableEvents.connecting, listener: (error: NatsTypescriptTemplateError) => void): this;
-  on(event: AvailableEvents.disconnect, listener: (serverURL: string) => void): this;
-  on(event: AvailableEvents.error, listener: (error: NatsTypescriptTemplateError) => void): this;
-  on(event: AvailableEvents.pingcount, listener: () => void): this;
-  on(event: AvailableEvents.pingtimer, listener: () => void): this;
-  on(event: AvailableEvents.reconnect, listener: (connection: Client, serverURL: string, info: ServerInfo) => void): this;
-  on(event: AvailableEvents.reconnecting, listener: (serverURL: string) => void): this;
-  on(event: AvailableEvents.serversChanged, listener: (e: ServersChangedEvent) => void): this;
-  on(event: AvailableEvents.subscribe, listener: (e: SubEvent) => void): this;
-  on(event: AvailableEvents.unsubscribe, listener: (e: SubEvent) => void): this;
-  on(event: AvailableEvents.yield, listener: () => void): this;
-}
 /**
  * @class NatsAsyncApiTestClient
  * 
  * The test/mirror client which is the reverse to the normal NatsAsyncApiClient.
  */
-export class NatsAsyncApiTestClient extends events.EventEmitter {
-  private jsonClient ? : Client;
-  private stringClient ? : Client;
-  private binaryClient ? : Client;
-  private options ? : NatsConnectionOptions;
-  constructor() {
-    super();
-  }
+export class NatsAsyncApiTestClient {
+  private nc ? : Nats.NatsConnection;
+  private codec ? : Nats.Codec < any > ;
+  private options ? : Nats.ConnectionOptions;
   /**
    * Try to connect to the NATS server with the different payloads.
    * @param options to use, payload is omitted if sat in the AsyncAPI document.
    */
-  connect(options: NatsConnectionOptions): Promise < void > {
+  connect(options: Nats.ConnectionOptions, codec ? : Nats.Codec < any > ): Promise < void > {
     return new Promise(async (resolve: () => void, reject: (error: any) => void) => {
+      if (!this.isClosed()) {
+        return reject('Client is still connected, please close it first.');
+      }
       this.options = options;
+      if (codec) {
+        this.codec = codec;
+      } else {
+        this.codec = Nats.JSONCodec();
+      }
       try {
-        if (!this.jsonClient || this.jsonClient!.isClosed()) {
-          this.options.payload = Payload.JSON;
-          this.jsonClient = await connect(this.options);
-          this.chainEvents(this.jsonClient);
-        }
+        this.nc = await Nats.connect(this.options);
         resolve();
-      } catch (e) {
+      } catch (e: any) {
         reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, e));
       }
     })
@@ -228,62 +181,18 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * Disconnect all clients from the server
    */
   async disconnect() {
-    if (!this.isClosed()) {
-      await this.jsonClient!.drain();
+    if (!this.isClosed() && this.nc !== undefined) {
+      await this.nc.drain();
     }
   }
   /**
    * Returns whether or not any of the clients are closed
    */
   isClosed() {
-    if (!this.jsonClient || this.jsonClient!.isClosed()) {
+    if (!this.nc || this.nc!.isClosed()) {
       return true;
     }
     return false;
-  }
-  private chainEvents(ns: Client) {
-    ns.on('permissionError', (e: NatsError) => {
-      this.emit(AvailableEvents.permissionError, NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, e))
-    });
-    ns.on('close', (e: NatsError) => {
-      this.emit(AvailableEvents.close, NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, e))
-    });
-    ns.on('connect', (connection: Client, serverURL: string, info: ServerInfo) => {
-      this.emit(AvailableEvents.connect, connection, serverURL, info)
-    });
-    ns.on('connecting', (serverURL: string) => {
-      this.emit(AvailableEvents.connecting, serverURL)
-    });
-    ns.on('disconnect', (serverURL: string) => {
-      this.emit(AvailableEvents.disconnect, serverURL)
-    });
-    ns.on('error', (e: NatsError) => {
-      this.emit(AvailableEvents.error, NatsTypescriptTemplateError.errorForCode(ErrorCode.INTERNAL_NATS_TS_ERROR, e))
-    });
-    ns.on('pingcount', () => {
-      this.emit(AvailableEvents.pingcount)
-    });
-    ns.on('pingtimer', () => {
-      this.emit(AvailableEvents.pingtimer)
-    });
-    ns.on('reconnect', (connection: Client, serverURL: string, info: ServerInfo) => {
-      this.emit(AvailableEvents.reconnect, connection, serverURL, info)
-    });
-    ns.on('reconnecting', (serverURL: string) => {
-      this.emit(AvailableEvents.reconnecting, serverURL)
-    });
-    ns.on('serversChanged', (e: ServersChangedEvent) => {
-      this.emit(AvailableEvents.serversChanged, e)
-    });
-    ns.on('subscribe', (e: SubEvent) => {
-      this.emit(AvailableEvents.subscribe, e)
-    });
-    ns.on('unsubscribe', (e: SubEvent) => {
-      this.emit(AvailableEvents.unsubscribe, e)
-    });
-    ns.on('yield', () => {
-      this.emit(AvailableEvents.yield)
-    });
   }
   /**
    * Try to connect to the NATS server with user credentials
@@ -291,11 +200,11 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param userCreds to use
    * @param options to connect with
    */
-  async connectWithUserCreds(userCreds: string, options ? : NatsConnectionOptions) {
+  async connectWithUserCreds(userCreds: string, options ? : Nats.ConnectionOptions, codec ? : Nats.Codec < any > ) {
     await this.connect({
-      userCreds: userCreds,
+      user: userCreds,
       ...options
-    });
+    }, codec);
   }
   /**
    * Try to connect to the NATS server with user and password
@@ -304,50 +213,33 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
    * @param pass password to use
    * @param options to connect with
    */
-  async connectWithUserPass(user: string, pass: string, options ? : NatsConnectionOptions) {
+  async connectWithUserPass(user: string, pass: string, options ? : Nats.ConnectionOptions, codec ? : Nats.Codec < any > ) {
     await this.connect({
       user: user,
       pass: pass,
       ...options
-    });
+    }, codec);
   }
   /**
    * Try to connect to the NATS server which has no authentication
    
-   * @param host to connect to
-   * @param options to connect with
-   */
-  async connectToHost(host: string, options ? : NatsConnectionOptions) {
+    * @param host to connect to
+    * @param options to connect with
+    */
+  async connectToHost(host: string, options ? : Nats.ConnectionOptions, codec ? : Nats.Codec < any > ) {
     await this.connect({
       servers: [host],
       ...options
-    });
-  }
-  /**
-   * Try to connect to the NATS server with NKey authentication
-   * 
-   * @param publicNkey User
-   * @param seed private key
-   * @param options to connect with
-   */
-  async connectWithNkey(publicNkey: string, seed: string, options ? : NatsConnectionOptions) {
-    await this.connect({
-      nkey: publicNkey,
-      nonceSigner: (nonce: string): Buffer => {
-        const sk = fromSeed(Buffer.from(seed));
-        return sk.sign(Buffer.from(nonce));
-      },
-      ...options
-    });
+    }, codec);
   }
   /**
    * Connects the client to the AsyncAPI server called production.
    * Test broker
    */
-  async connectToProduction() {
+  async connectToProduction(codec ? : Nats.Codec < any > ) {
     await this.connect({
       servers: ["test.nats.org:{port}"]
-    });
+    }, codec);
   }
   /**
    * Subscribe to the `v0/rust/servers/{server_id}/events/wiped`
@@ -364,24 +256,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : null, server_id ? : string) => void, server_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdEventsWipedChannel.subscribe(
-            onDataCallback, nc, server_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -404,24 +294,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : null, server_id ? : string) => void, server_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdEventsStartedChannel.subscribe(
-            onDataCallback, nc, server_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -444,24 +332,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : null, server_id ? : string) => void, server_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdEventsStoppingChannel.subscribe(
-            onDataCallback, nc, server_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -485,24 +371,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerConnected, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsConnectedChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -526,24 +410,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerDisconnected, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsDisconnectedChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -567,24 +449,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerResourceGathered, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -608,24 +488,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerRespawned, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsRespawnedChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -649,24 +527,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerCombatPlayerhit, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -691,24 +567,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerItemPickup, server_id ? : string, steam_id ? : string, item_id ? : string) => void, server_id: string, steam_id: string, item_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id, item_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id, item_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -733,24 +607,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerItemLoot, server_id ? : string, steam_id ? : string, item_id ? : string) => void, server_id: string, steam_id: string, item_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id, item_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id, item_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -775,24 +647,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerItemCrafted, server_id ? : string, steam_id ? : string, item_id ? : string) => void, server_id: string, steam_id: string, item_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id, item_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id, item_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -815,24 +685,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerCommand, server_id ? : string) => void, server_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdEventsCommandChannel.subscribe(
-            onDataCallback, nc, server_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -856,24 +724,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerReported, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsReportedChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -897,24 +763,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerUnbanned, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsUnbannedChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -938,24 +802,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ServerPlayerBanned, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsBannedChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
@@ -979,24 +841,22 @@ export class NatsAsyncApiTestClient extends events.EventEmitter {
       err ? : NatsTypescriptTemplateError,
       msg ? : ChatMessage, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
     flush ? : boolean,
-    options ? : SubscriptionOptions
-  ): Promise < Subscription > {
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
     return new Promise(async (resolve, reject) => {
-      const nc: Client = this.jsonClient!;
-      if (nc) {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
         try {
           const sub = await v0RustServersServerIdPlayersSteamIdEventsChatChannel.subscribe(
-            onDataCallback, nc, server_id, steam_id,
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
             options
           );
           if (flush) {
-            this.jsonClient!.flush(() => {
-              resolve(sub);
-            });
-          } else {
-            resolve(sub);
+            await this.nc.flush();
           }
-        } catch (e) {
+          resolve(sub);
+        } catch (e: any) {
           reject(e);
         }
       } else {
