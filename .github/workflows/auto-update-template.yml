@@ -1,8 +1,13 @@
-name: Auto update generate client when template updates
+name: Auto update generated client
 on:
   workflow_dispatch:
   schedule:
     - cron:  '0 0 * * *'
+
+  # Allows external webhook trigger
+  repository_dispatch:
+    types:
+      - webhook
 env:
   library_last_version: 0.0.0
   template_last_version: 0.0.0
