@@ -250,386 +250,626 @@ export class NatsAsyncApiClient {
     }, codec);
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/events/wiped` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/events/wiped`
    * 
    * Channel for the API to process when a server has just wiped
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdEventsWiped(
-    message: null, server_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdEventsWipedChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdEventsWiped(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : null, server_id ? : string) => void, server_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdEventsWipedChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/events/started` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/events/started`
    * 
    * Channel for the API to process for when a server has started
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdEventsStarted(
-    message: null, server_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdEventsStartedChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdEventsStarted(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : null, server_id ? : string) => void, server_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdEventsStartedChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/events/stopping` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/events/stopping`
    * 
    * Channel for the API to process for when a server is about to stop (cant send information if already stopped)
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdEventsStopping(
-    message: null, server_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdEventsStoppingChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdEventsStopping(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : null, server_id ? : string) => void, server_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdEventsStoppingChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/connected` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/connected`
    * 
    * Channel for the API to process for when a player connects to a server
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsConnected(
-    message: ServerPlayerConnected, server_id: string, steam_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsConnectedChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsConnected(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerPlayerConnected, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsConnectedChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/disconnected` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/disconnected`
    * 
    * Channel for the API to process for when a player disconnects from a server
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsDisconnected(
-    message: ServerPlayerDisconnected, server_id: string, steam_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsDisconnectedChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsDisconnected(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerPlayerDisconnected, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsDisconnectedChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/resourcesGathered` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/resourcesGathered`
    * 
    * Channel for the API to process for when a player gathers some resources
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsResourcesGathered(
-    message: ServerPlayerResourceGathered, server_id: string, steam_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsResourcesGathered(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerPlayerResourceGathered, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsResourcesGatheredChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/respawned` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/respawned`
    * 
    * Channel for the API to process for when a player respawn
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsRespawned(
-    message: ServerPlayerRespawned, server_id: string, steam_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsRespawnedChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsRespawned(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerPlayerRespawned, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsRespawnedChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/combat/playerhit` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/combat/playerhit`
    * 
    * Channel for the API to process for when a player hits another player
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsCombatPlayerhit(
-    message: ServerPlayerCombatPlayerhit, server_id: string, steam_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsCombatPlayerhit(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerPlayerCombatPlayerhit, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsCombatPlayerhitChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/pickup` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/pickup`
    * 
    * Channel for the API to process for when a player pickup items ingame
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    * @param item_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup(
-    message: ServerPlayerItemPickup, server_id: string, steam_id: string, item_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id, item_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerPlayerItemPickup, server_id ? : string, steam_id ? : string, item_id ? : string) => void, server_id: string, steam_id: string, item_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickupChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id, item_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/loot` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/loot`
    * 
    * Channel for the API to process for when a player loots an item ingame
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    * @param item_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdLoot(
-    message: ServerPlayerItemLoot, server_id: string, steam_id: string, item_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id, item_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdLoot(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerPlayerItemLoot, server_id ? : string, steam_id ? : string, item_id ? : string) => void, server_id: string, steam_id: string, item_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsItemsItemIdLootChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id, item_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/crafted` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/crafted`
    * 
    * Channel for the API to process for when a player crafts items ingame
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
    * @param item_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdCrafted(
-    message: ServerPlayerItemCrafted, server_id: string, steam_id: string, item_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id, item_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdCrafted(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerPlayerItemCrafted, server_id ? : string, steam_id ? : string, item_id ? : string) => void, server_id: string, steam_id: string, item_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsItemsItemIdCraftedChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id, item_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/events/command` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/events/command`
    * 
    * Channel for the API to process for when a server command is run
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdEventsCommand(
-    message: ServerCommand, server_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdEventsCommandChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdEventsCommand(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerCommand, server_id ? : string) => void, server_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdEventsCommandChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/reported` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/reported`
    * 
    * Channel for the API to process for when a player is reported
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsReported(
-    message: ServerPlayerReported, server_id: string, steam_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsReportedChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsReported(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerPlayerReported, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsReportedChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/unbanned` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/unbanned`
    * 
    * Channel for notifying a server unbanned a player
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsUnbanned(
-    message: ServerPlayerUnbanned, server_id: string, steam_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsUnbannedChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsUnbanned(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerPlayerUnbanned, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsUnbannedChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/banned` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/banned`
    * 
    * Channel for notifying a server banned a player
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsBanned(
-    message: ServerPlayerBanned, server_id: string, steam_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsBannedChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsBanned(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ServerPlayerBanned, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsBannedChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
   /**
-   * Publish to the `v0/rust/servers/{server_id}/players/{steam_id}/events/chat` channel 
+   * Subscribe to the `v0/rust/servers/{server_id}/players/{steam_id}/events/chat`
    * 
    * Channel for when a player chats ingame
    * 
-   * @param message to publish
+   * @param onDataCallback to call when messages are received
    * @param server_id parameter to use in topic
    * @param steam_id parameter to use in topic
+   * @param flush ensure client is force flushed after subscribing
+   * @param options to subscribe with, bindings from the AsyncAPI document overwrite these if specified
    */
-  public publishToV0RustServersServerIdPlayersSteamIdEventsChat(
-    message: ChatMessage, server_id: string, steam_id: string,
-    options ? : Nats.PublishOptions
-  ): Promise < void > {
-    if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
-      return v0RustServersServerIdPlayersSteamIdEventsChatChannel.publish(
-        message,
-        this.nc,
-        this.codec, server_id, steam_id,
-        options
-      );
-    } else {
-      return Promise.reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
-    }
+  public subscribeToV0RustServersServerIdPlayersSteamIdEventsChat(
+    onDataCallback: (
+      err ? : NatsTypescriptTemplateError,
+      msg ? : ChatMessage, server_id ? : string, steam_id ? : string) => void, server_id: string, steam_id: string,
+    flush ? : boolean,
+    options ? : Nats.SubscriptionOptions
+  ): Promise < Nats.Subscription > {
+    return new Promise(async (resolve, reject) => {
+      if (!this.isClosed() && this.nc !== undefined && this.codec !== undefined) {
+        try {
+          const sub = await v0RustServersServerIdPlayersSteamIdEventsChatChannel.subscribe(
+            onDataCallback,
+            this.nc,
+            this.codec, server_id, steam_id,
+            options
+          );
+          if (flush) {
+            await this.nc.flush();
+          }
+          resolve(sub);
+        } catch (e: any) {
+          reject(e);
+        }
+      } else {
+        reject(NatsTypescriptTemplateError.errorForCode(ErrorCode.NOT_CONNECTED));
+      }
+    });
   }
 }

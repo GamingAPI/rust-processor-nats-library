@@ -25,9 +25,9 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/connected can ta
   });
   it('can send message', async () => {
     var receivedError: NatsTypescriptTemplateError | undefined = undefined;
-    var receivedMsg: TestClient.ServerPlayerConnected | undefined = undefined;
+    var receivedMsg: Client.ServerPlayerConnected | undefined = undefined;
     var receivedServerId: string | undefined = undefinedvar receivedSteamId: string | undefined = undefined
-    var publishMessage: Client.ServerPlayerConnected = Client.ServerPlayerConnected.unmarshal({
+    var publishMessage: TestClient.ServerPlayerConnected = TestClient.ServerPlayerConnected.unmarshal({
       "connected_timestamp": "2016-08-29T09:12:33.001Z",
       "player": {
         "id": "string",
@@ -37,7 +37,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/connected can ta
     });
     var ServerIdToSend: string = "string"
     var SteamIdToSend: string = "string"
-    const subscription = await testClient.subscribeToV0RustServersServerIdPlayersSteamIdEventsConnected((err, msg, server_id, steam_id) => {
+    const subscription = await client.subscribeToV0RustServersServerIdPlayersSteamIdEventsConnected((err, msg, server_id, steam_id) => {
         receivedError = err;
         receivedMsg = msg;
         receivedServerId = server_idreceivedSteamId = steam_id
@@ -58,7 +58,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/connected can ta
         }
       }, 100);
     });
-    await client.publishToV0RustServersServerIdPlayersSteamIdEventsConnected(publishMessage, ServerIdToSend, SteamIdToSend);
+    await testClient.publishToV0RustServersServerIdPlayersSteamIdEventsConnected(publishMessage, ServerIdToSend, SteamIdToSend);
     await tryAndWaitForResponse;
     expect(receivedError).to.be.undefined;
     expect(receivedMsg).to.not.be.undefined;

@@ -25,9 +25,9 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/chat can talk to
   });
   it('can send message', async () => {
     var receivedError: NatsTypescriptTemplateError | undefined = undefined;
-    var receivedMsg: TestClient.ChatMessage | undefined = undefined;
+    var receivedMsg: Client.ChatMessage | undefined = undefined;
     var receivedServerId: string | undefined = undefinedvar receivedSteamId: string | undefined = undefined
-    var publishMessage: Client.ChatMessage = Client.ChatMessage.unmarshal({
+    var publishMessage: TestClient.ChatMessage = TestClient.ChatMessage.unmarshal({
       "steam_id": "string",
       "player_name": "string",
       "raw_message": "string",
@@ -39,7 +39,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/chat can talk to
     });
     var ServerIdToSend: string = "string"
     var SteamIdToSend: string = "string"
-    const subscription = await testClient.subscribeToV0RustServersServerIdPlayersSteamIdEventsChat((err, msg, server_id, steam_id) => {
+    const subscription = await client.subscribeToV0RustServersServerIdPlayersSteamIdEventsChat((err, msg, server_id, steam_id) => {
         receivedError = err;
         receivedMsg = msg;
         receivedServerId = server_idreceivedSteamId = steam_id
@@ -60,7 +60,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/chat can talk to
         }
       }, 100);
     });
-    await client.publishToV0RustServersServerIdPlayersSteamIdEventsChat(publishMessage, ServerIdToSend, SteamIdToSend);
+    await testClient.publishToV0RustServersServerIdPlayersSteamIdEventsChat(publishMessage, ServerIdToSend, SteamIdToSend);
     await tryAndWaitForResponse;
     expect(receivedError).to.be.undefined;
     expect(receivedMsg).to.not.be.undefined;

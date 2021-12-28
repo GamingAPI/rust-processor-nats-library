@@ -25,9 +25,9 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/resourcesGathere
   });
   it('can send message', async () => {
     var receivedError: NatsTypescriptTemplateError | undefined = undefined;
-    var receivedMsg: TestClient.ServerPlayerResourceGathered | undefined = undefined;
+    var receivedMsg: Client.ServerPlayerResourceGathered | undefined = undefined;
     var receivedServerId: string | undefined = undefinedvar receivedSteamId: string | undefined = undefined
-    var publishMessage: Client.ServerPlayerResourceGathered = Client.ServerPlayerResourceGathered.unmarshal({
+    var publishMessage: TestClient.ServerPlayerResourceGathered = TestClient.ServerPlayerResourceGathered.unmarshal({
       "gathered_timestamp": "2016-08-29T09:12:33.001Z",
       "steam_id": "string",
       "item_uid": 0,
@@ -45,7 +45,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/resourcesGathere
     });
     var ServerIdToSend: string = "string"
     var SteamIdToSend: string = "string"
-    const subscription = await testClient.subscribeToV0RustServersServerIdPlayersSteamIdEventsResourcesGathered((err, msg, server_id, steam_id) => {
+    const subscription = await client.subscribeToV0RustServersServerIdPlayersSteamIdEventsResourcesGathered((err, msg, server_id, steam_id) => {
         receivedError = err;
         receivedMsg = msg;
         receivedServerId = server_idreceivedSteamId = steam_id
@@ -66,7 +66,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/resourcesGathere
         }
       }, 100);
     });
-    await client.publishToV0RustServersServerIdPlayersSteamIdEventsResourcesGathered(publishMessage, ServerIdToSend, SteamIdToSend);
+    await testClient.publishToV0RustServersServerIdPlayersSteamIdEventsResourcesGathered(publishMessage, ServerIdToSend, SteamIdToSend);
     await tryAndWaitForResponse;
     expect(receivedError).to.be.undefined;
     expect(receivedMsg).to.not.be.undefined;

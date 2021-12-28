@@ -25,9 +25,9 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/disconnected can
   });
   it('can send message', async () => {
     var receivedError: NatsTypescriptTemplateError | undefined = undefined;
-    var receivedMsg: TestClient.ServerPlayerDisconnected | undefined = undefined;
+    var receivedMsg: Client.ServerPlayerDisconnected | undefined = undefined;
     var receivedServerId: string | undefined = undefinedvar receivedSteamId: string | undefined = undefined
-    var publishMessage: Client.ServerPlayerDisconnected = Client.ServerPlayerDisconnected.unmarshal({
+    var publishMessage: TestClient.ServerPlayerDisconnected = TestClient.ServerPlayerDisconnected.unmarshal({
       "disconnected_timestamp": "2016-08-29T09:12:33.001Z",
       "player": {
         "id": "string"
@@ -36,7 +36,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/disconnected can
     });
     var ServerIdToSend: string = "string"
     var SteamIdToSend: string = "string"
-    const subscription = await testClient.subscribeToV0RustServersServerIdPlayersSteamIdEventsDisconnected((err, msg, server_id, steam_id) => {
+    const subscription = await client.subscribeToV0RustServersServerIdPlayersSteamIdEventsDisconnected((err, msg, server_id, steam_id) => {
         receivedError = err;
         receivedMsg = msg;
         receivedServerId = server_idreceivedSteamId = steam_id
@@ -57,7 +57,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/disconnected can
         }
       }, 100);
     });
-    await client.publishToV0RustServersServerIdPlayersSteamIdEventsDisconnected(publishMessage, ServerIdToSend, SteamIdToSend);
+    await testClient.publishToV0RustServersServerIdPlayersSteamIdEventsDisconnected(publishMessage, ServerIdToSend, SteamIdToSend);
     await tryAndWaitForResponse;
     expect(receivedError).to.be.undefined;
     expect(receivedMsg).to.not.be.undefined;
