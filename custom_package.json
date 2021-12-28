@@ -17,9 +17,10 @@
   ],
   "homepage": "https://github.com/GamingEventAPI/rust-processor-nats-library#readme",
   "scripts": {
-    "generate:assets": "npm run build",
+    "generate:assets": "npm run build && npm run docs",
     "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "prepublishOnly": "npm run generate:assets"
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^8.0.1",
