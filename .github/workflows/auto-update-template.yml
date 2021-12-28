@@ -109,33 +109,33 @@ jobs:
         run: rm -rf ./definitions
 
       # Follow conventional commit for PR's to ensure accurate updates
-      - name: Create Pull Request for major version if needed
+      - name: Create pull request for major version if needed
         if: ${{env.major_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
         with:
-          title: "feat!: auto update"
+          title: "feat!: major version change"
           committer: jonaslagoni <jonas-lt@live.dk>
           author: jonaslagoni <jonas-lt@live.dk>
           delete-branch: true
-          commit-message: ${{env.commit_message}}. \n\n Library require a new major version change.
-          body: ${{env.commit_message}}. \n\n Library require a new major version change.
-      - name: Create Pull Request for minor version if needed
+          commit-message: ${{env.commit_message}}. Library require a new major version change.
+          body: ${{env.commit_message}}. Library require a new major version change.
+      - name: Create pull request for minor version if needed
         if: ${{env.minor_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
         with:
-          title: "feat: auto update"
+          title: "feat: minor version change"
           committer: jonaslagoni <jonas-lt@live.dk>
           author: jonaslagoni <jonas-lt@live.dk>
           delete-branch: true
-          commit-message: ${{env.commit_message}}. \n\n Library require a new major version change.
-          body: ${{env.commit_message}}. \n\n Library require a new minor version change.
-      - name: Create Pull Request for patch version if needed
+          commit-message: ${{env.commit_message}}. Library require a new minor version change.
+          body: ${{env.commit_message}}. Library require a new minor version change.
+      - name: Create pull request for patch version if needed
         if: ${{env.patch_version_change == 'true'}}
         uses: peter-evans/create-pull-request@v3
         with:
-          title: "fix: auto update"
+          title: "fix: patch version change"
           committer: jonaslagoni <jonas-lt@live.dk>
           author: jonaslagoni <jonas-lt@live.dk>
           delete-branch: true
-          commit-message: ${{env.commit_message}}. \n\n Library require a new major version change.
-          body: ${{env.commit_message}}. \n\n Library require a new patch version change.
+          commit-message: ${{env.commit_message}}. Library require a new patch version change.
+          body: ${{env.commit_message}}. Library require a new patch version change.
