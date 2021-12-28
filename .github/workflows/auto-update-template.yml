@@ -89,7 +89,7 @@ jobs:
       - name: Write new config file to ensure we keep the new state for next time
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         run: |
-          contents="$(jq ".template_last_version = \"$template_current_version\" | .document_last_version = \"$document_current_version\"" configs.json)" && echo "${contents}" > configs.json && 
+          contents="$(jq ".template_last_version = \"$template_current_version\" | .document_last_version = \"$document_current_version\"" configs.json)" && echo "${contents}" > configs.json
       - name: Write old version to package.json file as it was cleared by the generator
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         run: contents="$(jq ".version = \"$library_last_version\"" package.json)" && echo "${contents}" > package.json
