@@ -10,6 +10,11 @@
   "bugs": {
     "url": "https://github.com/GamingEventAPI/rust-processor-nats-library/issues"
   },
+  "files": [
+    "/lib",
+    "./README.md",
+    "./LICENSE"
+  ],
   "homepage": "https://github.com/GamingEventAPI/rust-processor-nats-library#readme",
   "scripts": {
     "generate:assets": "npm run build",
