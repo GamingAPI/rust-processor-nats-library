@@ -25,9 +25,9 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/
   });
   it('can send message', async () => {
     var receivedError: NatsTypescriptTemplateError | undefined = undefined;
-    var receivedMsg: TestClient.ServerPlayerItemPickup | undefined = undefined;
+    var receivedMsg: Client.ServerPlayerItemPickup | undefined = undefined;
     var receivedServerId: string | undefined = undefinedvar receivedSteamId: string | undefined = undefinedvar receivedItemId: string | undefined = undefined
-    var publishMessage: Client.ServerPlayerItemPickup = Client.ServerPlayerItemPickup.unmarshal({
+    var publishMessage: TestClient.ServerPlayerItemPickup = TestClient.ServerPlayerItemPickup.unmarshal({
       "pickup_timestamp": "2016-08-29T09:12:33.001Z",
       "steam_id": "string",
       "item_uid": 0,
@@ -37,7 +37,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/
     var ServerIdToSend: string = "string"
     var SteamIdToSend: string = "string"
     var ItemIdToSend: string = "string"
-    const subscription = await testClient.subscribeToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup((err, msg, server_id, steam_id, item_id) => {
+    const subscription = await client.subscribeToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup((err, msg, server_id, steam_id, item_id) => {
         receivedError = err;
         receivedMsg = msg;
         receivedServerId = server_idreceivedSteamId = steam_idreceivedItemId = item_id
@@ -58,7 +58,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/items/{item_id}/
         }
       }, 100);
     });
-    await client.publishToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup(publishMessage, ServerIdToSend, SteamIdToSend, ItemIdToSend);
+    await testClient.publishToV0RustServersServerIdPlayersSteamIdEventsItemsItemIdPickup(publishMessage, ServerIdToSend, SteamIdToSend, ItemIdToSend);
     await tryAndWaitForResponse;
     expect(receivedError).to.be.undefined;
     expect(receivedMsg).to.not.be.undefined;

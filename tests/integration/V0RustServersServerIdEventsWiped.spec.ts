@@ -25,11 +25,11 @@ describe('v0/rust/servers/{server_id}/events/wiped can talk to itself', () => {
   });
   it('can send message', async () => {
     var receivedError: NatsTypescriptTemplateError | undefined = undefined;
-    var receivedMsg: TestClient.null | undefined = undefined;
+    var receivedMsg: Client.null | undefined = undefined;
     var receivedServerId: string | undefined = undefined
-    var publishMessage: Client.null = Client.null.unmarshal("");
+    var publishMessage: TestClient.null = TestClient.null.unmarshal("");
     var ServerIdToSend: string = "string"
-    const subscription = await testClient.subscribeToV0RustServersServerIdEventsWiped((err, msg, server_id) => {
+    const subscription = await client.subscribeToV0RustServersServerIdEventsWiped((err, msg, server_id) => {
         receivedError = err;
         receivedMsg = msg;
         receivedServerId = server_id
@@ -50,7 +50,7 @@ describe('v0/rust/servers/{server_id}/events/wiped can talk to itself', () => {
         }
       }, 100);
     });
-    await client.publishToV0RustServersServerIdEventsWiped(publishMessage, ServerIdToSend);
+    await testClient.publishToV0RustServersServerIdEventsWiped(publishMessage, ServerIdToSend);
     await tryAndWaitForResponse;
     expect(receivedError).to.be.undefined;
     expect(receivedMsg).to.not.be.undefined;

@@ -25,9 +25,9 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/banned can talk 
   });
   it('can send message', async () => {
     var receivedError: NatsTypescriptTemplateError | undefined = undefined;
-    var receivedMsg: TestClient.ServerPlayerBanned | undefined = undefined;
+    var receivedMsg: Client.ServerPlayerBanned | undefined = undefined;
     var receivedServerId: string | undefined = undefinedvar receivedSteamId: string | undefined = undefined
-    var publishMessage: Client.ServerPlayerBanned = Client.ServerPlayerBanned.unmarshal({
+    var publishMessage: TestClient.ServerPlayerBanned = TestClient.ServerPlayerBanned.unmarshal({
       "player_name": "string",
       "steam_id": "string",
       "reason": "string",
@@ -36,7 +36,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/banned can talk 
     });
     var ServerIdToSend: string = "string"
     var SteamIdToSend: string = "string"
-    const subscription = await testClient.subscribeToV0RustServersServerIdPlayersSteamIdEventsBanned((err, msg, server_id, steam_id) => {
+    const subscription = await client.subscribeToV0RustServersServerIdPlayersSteamIdEventsBanned((err, msg, server_id, steam_id) => {
         receivedError = err;
         receivedMsg = msg;
         receivedServerId = server_idreceivedSteamId = steam_id
@@ -57,7 +57,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/banned can talk 
         }
       }, 100);
     });
-    await client.publishToV0RustServersServerIdPlayersSteamIdEventsBanned(publishMessage, ServerIdToSend, SteamIdToSend);
+    await testClient.publishToV0RustServersServerIdPlayersSteamIdEventsBanned(publishMessage, ServerIdToSend, SteamIdToSend);
     await tryAndWaitForResponse;
     expect(receivedError).to.be.undefined;
     expect(receivedMsg).to.not.be.undefined;

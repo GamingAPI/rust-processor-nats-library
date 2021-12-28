@@ -25,9 +25,9 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/respawned can ta
   });
   it('can send message', async () => {
     var receivedError: NatsTypescriptTemplateError | undefined = undefined;
-    var receivedMsg: TestClient.ServerPlayerRespawned | undefined = undefined;
+    var receivedMsg: Client.ServerPlayerRespawned | undefined = undefined;
     var receivedServerId: string | undefined = undefinedvar receivedSteamId: string | undefined = undefined
-    var publishMessage: Client.ServerPlayerRespawned = Client.ServerPlayerRespawned.unmarshal({
+    var publishMessage: TestClient.ServerPlayerRespawned = TestClient.ServerPlayerRespawned.unmarshal({
       "steam_id": "string",
       "respawn_timestamp": "2016-08-29T09:12:33.001Z",
       "respawn_position": {
@@ -38,7 +38,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/respawned can ta
     });
     var ServerIdToSend: string = "string"
     var SteamIdToSend: string = "string"
-    const subscription = await testClient.subscribeToV0RustServersServerIdPlayersSteamIdEventsRespawned((err, msg, server_id, steam_id) => {
+    const subscription = await client.subscribeToV0RustServersServerIdPlayersSteamIdEventsRespawned((err, msg, server_id, steam_id) => {
         receivedError = err;
         receivedMsg = msg;
         receivedServerId = server_idreceivedSteamId = steam_id
@@ -59,7 +59,7 @@ describe('v0/rust/servers/{server_id}/players/{steam_id}/events/respawned can ta
         }
       }, 100);
     });
-    await client.publishToV0RustServersServerIdPlayersSteamIdEventsRespawned(publishMessage, ServerIdToSend, SteamIdToSend);
+    await testClient.publishToV0RustServersServerIdPlayersSteamIdEventsRespawned(publishMessage, ServerIdToSend, SteamIdToSend);
     await tryAndWaitForResponse;
     expect(receivedError).to.be.undefined;
     expect(receivedMsg).to.not.be.undefined;
