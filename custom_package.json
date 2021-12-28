@@ -1,4 +1,16 @@
 {
+	"name": "@gaming_event_api/rust-processor-nats-library",
+  "description": "NATS library for creating a rust processor. To process all events received by a rust server.",
+	"publishConfig": {
+		"access": "public"
+  },
+  "keywords": [],
+  "author": "Jonas Lagoni (jonas-lt@live.dk)",
+  "license": "Apache-2.0",
+  "bugs": {
+		"url": "https://github.com/GamingEventAPI/ts-nats-processor-library/issues"
+  },
+  "homepage": "https://github.com/GamingEventAPI/ts-nats-processor-library#readme",
 	"scripts": {
 		"generate:assets": "npm run build",
 		"bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION",
@@ -12,13 +24,9 @@
 		"conventional-changelog-conventionalcommits": "^4.2.3",
 		"semantic-release": "^17.0.4"
 	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"homepage": "https://github.com/jonaslagoni/asyncapi-quicktype-template#readme",
 	"release": {
 		"branches": [
-			"master"
+			"main"
 		],
 		"plugins": [
 			[

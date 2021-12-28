@@ -1,5 +1,5 @@
 {
-  "name": "rust-server-api",
+  "name": "@gaming_event_api/rust-processor-nats-library",
   "description": "",
   "version": "0.1.0",
   "main": "lib/index.js",

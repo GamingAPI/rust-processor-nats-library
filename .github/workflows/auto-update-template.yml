@@ -29,7 +29,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       # Find all relevant semver versions needed to figure out how to update the client
       - name: Fetch the last AsyncAPI document version that generated the client
         run: echo "document_last_version=$(cat ./configs.json | jq -r '.document_last_version')" >> $GITHUB_ENV
@@ -42,11 +41,11 @@ jobs:
       - name: Get all the application AsyncAPI documents
         uses: actions/checkout@v2  
         with:
-          repository: EventstackTech/definitions
+          repository: GamingEventAPI/definitions
           token: ${{ secrets.READ_TOKEN }}
           path: "./definitions"
       - name: Get the version of the API
-        run: echo "document_current_version=$(cat ./definitions/Rust_server.json | jq -r '.info.version' | sed 's/v//')" >> $GITHUB_ENV
+        run: echo "document_current_version=$(cat ./definitions/rust_processor.json | jq -r '.info.version' | sed 's/v//')" >> $GITHUB_ENV
       
       # Figure out how the template version have changed
       - run: semver_template_last_version=( ${template_last_version//./ } ) && major_template_last_version=${semver_template_last_version[0]} && echo "major_template_last_version=$major_template_last_version" >> $GITHUB_ENV
@@ -85,7 +84,7 @@ jobs:
         uses: docker://asyncapi/github-action-for-generator:2.0.0
         with:
           template: '@asyncapi/ts-nats-template'
-          filepath: ./definitions/Rust_server.json
+          filepath: ./definitions/rust_processor.json
           output: ./
       - name: Write new config file to ensure we keep the new state for next time
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
