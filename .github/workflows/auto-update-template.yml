@@ -78,7 +78,7 @@ jobs:
       # Make changes to the client code if needed
       - name: Remove previous files to ensure clean slate
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
-        run: find . -not \( -name configs.json -or -name custom_package.json -or -iwholename *.github* -or -iwholename *./definitions* -or -iwholename *.git* -or -name . \) -exec echo {} +
+        run: find . -not \( -name configs.json -or -name .gitignore -or -name custom_package.json -or -iwholename *.github* -or -iwholename *./definitions* -or -iwholename *.git* -or -name . \) -exec echo {} +
       - name: Generating client from the AsyncAPI document
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
         uses: docker://asyncapi/github-action-for-generator:2.0.0
