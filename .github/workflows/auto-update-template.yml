@@ -95,7 +95,13 @@ jobs:
         run: contents="$(jq ".version = \"$library_last_version\"" package.json)" && echo "${contents}" > package.json
       - name: Merge custom package file with template generated
         if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
-        run: jq -s '.[0] * .[1]' ./package.json ./custom_package.json > ./package.json
+        run: jq -s '.[0] * .[1]' ./package.json ./custom_package.json > ./package_tmp.json
+      - name: Remove old package file
+        if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
+        run: rm ./package.json
+      - name: Take new package file in use
+        if: ${{env.major_version_change == 'true' || env.minor_version_change == 'true' || env.patch_version_change == 'true'}}
+        run: mv ./package_tmp.json ./package.json   
 
       # Clean up from code generation
       - name: Remove excess files
