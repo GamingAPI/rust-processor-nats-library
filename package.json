@@ -9,9 +9,10 @@
     "test:integration": "mocha -r ts-node/register tests/integration/**/*.spec.ts --exit --timeout 10000",
     "docs": "npm run docs:markdown",
     "docs:markdown": "jsdoc2md lib/index.js -f lib/**/*.js > API.md",
-    "generate:assets": "npm run build",
+    "generate:assets": "npm run build && npm run docs",
     "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "prepublishOnly": "npm run generate:assets"
   },
   "dependencies": {
     "nats": "^2.4.0"
@@ -40,9 +41,14 @@
   "author": "Jonas Lagoni (jonas-lt@live.dk)",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/GamingEventAPI/ts-nats-processor-library/issues"
+    "url": "https://github.com/GamingEventAPI/rust-processor-nats-library/issues"
   },
-  "homepage": "https://github.com/GamingEventAPI/ts-nats-processor-library#readme",
+  "files": [
+    "/lib",
+    "./README.md",
+    "./LICENSE"
+  ],
+  "homepage": "https://github.com/GamingEventAPI/rust-processor-nats-library#readme",
   "release": {
     "branches": [
       "main"
