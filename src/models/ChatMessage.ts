@@ -1,6 +1,6 @@
 
 
-export class ChatMessage {
+class ChatMessage {
   private _steamId: string;
   private _playerName: string;
   private _rawMessage?: string;

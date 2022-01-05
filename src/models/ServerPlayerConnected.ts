@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerConnected {
+class ServerPlayerConnected {
   private _connectedTimestamp: string;
   private _player: Player;
   private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null>;

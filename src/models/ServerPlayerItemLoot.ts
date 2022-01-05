@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerItemLoot {
+class ServerPlayerItemLoot {
   private _lootTimestamp: string;
   private _steamId: string;
   private _itemUid: number;

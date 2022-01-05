@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerResourceGathered {
+class ServerPlayerResourceGathered {
   private _gatheredTimestamp: string;
   private _steamId: string;
   private _itemUid: number;

@@ -1,6 +1,6 @@
 
 
-export class PlayerHit {
+class PlayerHit {
   private _steamId: string;
   private _position: PlayerPosition;
   private _activeItem: ActiveItem;

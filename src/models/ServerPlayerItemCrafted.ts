@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerItemCrafted {
+class ServerPlayerItemCrafted {
   private _craftTimestamp: string;
   private _steamId: string;
   private _itemUid: number;

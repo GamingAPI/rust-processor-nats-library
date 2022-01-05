@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerBanned {
+class ServerPlayerBanned {
   private _playerName: string;
   private _steamId: string;
   private _reason?: string;

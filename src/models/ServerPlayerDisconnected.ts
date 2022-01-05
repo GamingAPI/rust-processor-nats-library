@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerDisconnected {
+class ServerPlayerDisconnected {
   private _disconnectedTimestamp: string;
   private _player: ServerPlayerDisconnectedPlayer;
   private _reason?: string;

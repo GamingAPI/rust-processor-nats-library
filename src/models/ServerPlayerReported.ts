@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerReported {
+class ServerPlayerReported {
   private _reporterSteamId: string;
   private _reportedTargetSteamId: string;
   private _subject?: string;

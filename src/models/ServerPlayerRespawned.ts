@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerRespawned {
+class ServerPlayerRespawned {
   private _steamId: string;
   private _respawnTimestamp: string;
   private _respawnPosition: PlayerPosition;

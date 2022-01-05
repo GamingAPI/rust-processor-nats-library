@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerUnbanned {
+class ServerPlayerUnbanned {
   private _steamId: string;
   private _name?: string;
   private _timestamp: string;

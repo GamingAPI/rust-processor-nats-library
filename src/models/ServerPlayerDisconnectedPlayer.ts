@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerDisconnectedPlayer {
+class ServerPlayerDisconnectedPlayer {
   private _id: string;
   private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null>;
 

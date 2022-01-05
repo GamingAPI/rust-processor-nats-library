@@ -1,6 +1,6 @@
 
 
-export class ActiveItem {
+class ActiveItem {
   private _uid?: number;
   private _itemId?: number;
   private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null>;
