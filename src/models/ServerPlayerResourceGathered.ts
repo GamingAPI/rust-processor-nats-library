@@ -1,6 +1,7 @@
+import ActiveItem from './ActiveItem';
+import PlayerPosition from './PlayerPosition';
 
-
-export class ServerPlayerResourceGathered {
+class ServerPlayerResourceGathered {
   private _gatheredTimestamp: string;
   private _steamId: string;
   private _itemUid: number;
@@ -124,4 +125,4 @@ export class ServerPlayerResourceGathered {
     return instance;
   }
 }
-    
+export default ServerPlayerResourceGathered;

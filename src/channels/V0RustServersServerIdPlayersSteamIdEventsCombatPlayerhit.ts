@@ -1,6 +1,4 @@
-import {
-  ServerPlayerCombatPlayerhit
-} from '../models/ServerPlayerCombatPlayerhit';
+import ServerPlayerCombatPlayerhit from '../models/ServerPlayerCombatPlayerhit';
 import * as Nats from 'nats';
 import {
   ErrorCode,

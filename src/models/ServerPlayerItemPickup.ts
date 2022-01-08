@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerItemPickup {
+class ServerPlayerItemPickup {
   private _pickupTimestamp: string;
   private _steamId: string;
   private _itemUid: number;
@@ -100,4 +100,4 @@ export class ServerPlayerItemPickup {
     return instance;
   }
 }
-    
+export default ServerPlayerItemPickup;

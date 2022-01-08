@@ -1,6 +1,4 @@
-import {
-  ServerCommand
-} from '../models/ServerCommand';
+import ServerCommand from '../models/ServerCommand';
 import * as Nats from 'nats';
 import {
   ErrorCode,

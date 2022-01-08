@@ -1,6 +1,4 @@
-import {
-  ServerPlayerConnected
-} from '../models/ServerPlayerConnected';
+import ServerPlayerConnected from '../models/ServerPlayerConnected';
 import * as Nats from 'nats';
 import {
   ErrorCode,

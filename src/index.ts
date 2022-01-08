@@ -20,45 +20,19 @@ import * as v0RustServersServerIdPlayersSteamIdEventsReportedChannel from "./cha
 import * as v0RustServersServerIdPlayersSteamIdEventsUnbannedChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsUnbanned";
 import * as v0RustServersServerIdPlayersSteamIdEventsBannedChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsBanned";
 import * as v0RustServersServerIdPlayersSteamIdEventsChatChannel from "./channels/V0RustServersServerIdPlayersSteamIdEventsChat";
-import {
-  ServerPlayerConnected
-} from "./models/ServerPlayerConnected";
-import {
-  ServerPlayerDisconnected
-} from "./models/ServerPlayerDisconnected";
-import {
-  ServerPlayerResourceGathered
-} from "./models/ServerPlayerResourceGathered";
-import {
-  ServerPlayerRespawned
-} from "./models/ServerPlayerRespawned";
-import {
-  ServerPlayerCombatPlayerhit
-} from "./models/ServerPlayerCombatPlayerhit";
-import {
-  ServerPlayerItemPickup
-} from "./models/ServerPlayerItemPickup";
-import {
-  ServerPlayerItemLoot
-} from "./models/ServerPlayerItemLoot";
-import {
-  ServerPlayerItemCrafted
-} from "./models/ServerPlayerItemCrafted";
-import {
-  ServerCommand
-} from "./models/ServerCommand";
-import {
-  ServerPlayerReported
-} from "./models/ServerPlayerReported";
-import {
-  ServerPlayerUnbanned
-} from "./models/ServerPlayerUnbanned";
-import {
-  ServerPlayerBanned
-} from "./models/ServerPlayerBanned";
-import {
-  ChatMessage
-} from "./models/ChatMessage";
+import ServerPlayerConnected from "./models/ServerPlayerConnected";
+import ServerPlayerDisconnected from "./models/ServerPlayerDisconnected";
+import ServerPlayerResourceGathered from "./models/ServerPlayerResourceGathered";
+import ServerPlayerRespawned from "./models/ServerPlayerRespawned";
+import ServerPlayerCombatPlayerhit from "./models/ServerPlayerCombatPlayerhit";
+import ServerPlayerItemPickup from "./models/ServerPlayerItemPickup";
+import ServerPlayerItemLoot from "./models/ServerPlayerItemLoot";
+import ServerPlayerItemCrafted from "./models/ServerPlayerItemCrafted";
+import ServerCommand from "./models/ServerCommand";
+import ServerPlayerReported from "./models/ServerPlayerReported";
+import ServerPlayerUnbanned from "./models/ServerPlayerUnbanned";
+import ServerPlayerBanned from "./models/ServerPlayerBanned";
+import ChatMessage from "./models/ChatMessage";
 export {
   v0RustServersServerIdEventsWipedChannel
 };

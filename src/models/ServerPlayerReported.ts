@@ -1,6 +1,6 @@
 
 
-export class ServerPlayerReported {
+class ServerPlayerReported {
   private _reporterSteamId: string;
   private _reportedTargetSteamId: string;
   private _subject?: string;
@@ -112,4 +112,4 @@ export class ServerPlayerReported {
     return instance;
   }
 }
-    
+export default ServerPlayerReported;

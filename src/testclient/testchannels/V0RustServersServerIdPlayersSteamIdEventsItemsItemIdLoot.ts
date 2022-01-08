@@ -1,6 +1,4 @@
-import {
-  ServerPlayerItemLoot
-} from '../../models/ServerPlayerItemLoot';
+import ServerPlayerItemLoot from '../../models/ServerPlayerItemLoot';
 import * as Nats from 'nats';
 import {
   ErrorCode,

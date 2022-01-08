@@ -1,6 +1,4 @@
-import {
-  ServerPlayerBanned
-} from '../models/ServerPlayerBanned';
+import ServerPlayerBanned from '../models/ServerPlayerBanned';
 import * as Nats from 'nats';
 import {
   ErrorCode,

@@ -1,6 +1,6 @@
+import PlayerPosition from './PlayerPosition';
 
-
-export class ServerPlayerRespawned {
+class ServerPlayerRespawned {
   private _steamId: string;
   private _respawnTimestamp: string;
   private _respawnPosition: PlayerPosition;
@@ -76,4 +76,4 @@ export class ServerPlayerRespawned {
     return instance;
   }
 }
-    
+export default ServerPlayerRespawned;

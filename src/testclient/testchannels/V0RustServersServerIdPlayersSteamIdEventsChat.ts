@@ -1,6 +1,4 @@
-import {
-  ChatMessage
-} from '../../models/ChatMessage';
+import ChatMessage from '../../models/ChatMessage';
 import * as Nats from 'nats';
 import {
   ErrorCode,

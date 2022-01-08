@@ -1,6 +1,6 @@
 
 
-export class ServerCommand {
+class ServerCommand {
   private _command?: string;
   private _reservedArguments?: string;
   private _steamId?: string;
@@ -88,4 +88,4 @@ export class ServerCommand {
     return instance;
   }
 }
-    
+export default ServerCommand;
