@@ -1,6 +1,6 @@
+import PlayerPosition from './PlayerPosition';
 
-
-export class ServerPlayerItemLoot {
+class ServerPlayerItemLoot {
   private _lootTimestamp: string;
   private _steamId: string;
   private _itemUid: number;
@@ -136,4 +136,4 @@ export class ServerPlayerItemLoot {
     return instance;
   }
 }
-    
+export default ServerPlayerItemLoot;

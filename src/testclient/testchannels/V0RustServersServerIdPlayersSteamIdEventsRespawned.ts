@@ -1,6 +1,4 @@
-import {
-  ServerPlayerRespawned
-} from '../../models/ServerPlayerRespawned';
+import ServerPlayerRespawned from '../../models/ServerPlayerRespawned';
 import * as Nats from 'nats';
 import {
   ErrorCode,

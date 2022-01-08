@@ -1,6 +1,6 @@
 
 
-export class PlayerPosition {
+class PlayerPosition {
   private _x: number;
   private _y: number;
   private _z: number;
@@ -76,4 +76,4 @@ export class PlayerPosition {
     return instance;
   }
 }
-    
+export default PlayerPosition;

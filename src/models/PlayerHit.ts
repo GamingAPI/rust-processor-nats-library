@@ -1,6 +1,7 @@
+import PlayerPosition from './PlayerPosition';
+import ActiveItem from './ActiveItem';
 
-
-export class PlayerHit {
+class PlayerHit {
   private _steamId: string;
   private _position: PlayerPosition;
   private _activeItem: ActiveItem;
@@ -76,4 +77,4 @@ export class PlayerHit {
     return instance;
   }
 }
-    
+export default PlayerHit;

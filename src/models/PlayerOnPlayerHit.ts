@@ -1,12 +1,12 @@
+import PlayerHit from './PlayerHit';
 
-
-export class PlayerOnPlayerHit {
+class PlayerOnPlayerHit {
   private _hitAreaId: number;
   private _hitDistance: number;
   private _hitDamage: number;
   private _isKill: boolean;
   private _victim: PlayerHit;
-  private _attacker: any;
+  private _attacker: PlayerHit;
   private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null>;
 
   constructor(input: {
@@ -15,7 +15,7 @@ export class PlayerOnPlayerHit {
     hitDamage: number,
     isKill: boolean,
     victim: PlayerHit,
-    attacker: any,
+    attacker: PlayerHit,
   }) {
     this._hitAreaId = input.hitAreaId;
     this._hitDistance = input.hitDistance;
@@ -40,8 +40,8 @@ export class PlayerOnPlayerHit {
   get victim(): PlayerHit { return this._victim; }
   set victim(victim: PlayerHit) { this._victim = victim; }
 
-  get attacker(): any { return this._attacker; }
-  set attacker(attacker: any) { this._attacker = attacker; }
+  get attacker(): PlayerHit { return this._attacker; }
+  set attacker(attacker: PlayerHit) { this._attacker = attacker; }
 
   get additionalProperties(): Map<String, object | string | number | Array<unknown> | boolean | null> | undefined { return this._additionalProperties; }
   set additionalProperties(additionalProperties: Map<String, object | string | number | Array<unknown> | boolean | null> | undefined) { this._additionalProperties = additionalProperties; }
@@ -64,7 +64,7 @@ export class PlayerOnPlayerHit {
       json += `"victim": ${this.victim.marshal()},`; 
     }
     if(this.attacker !== undefined) {
-      json += `"attacker": ${typeof this.attacker === 'number' || typeof this.attacker === 'boolean' ? this.attacker : JSON.stringify(this.attacker)},`; 
+      json += `"attacker": ${this.attacker.marshal()},`; 
     }
   
     if(this.additionalProperties !== undefined) { 
@@ -99,7 +99,7 @@ export class PlayerOnPlayerHit {
       instance.victim = PlayerHit.unmarshal(obj["victim"]);
     }
     if (obj["attacker"] !== undefined) {
-      instance.attacker = obj["attacker"];
+      instance.attacker = PlayerHit.unmarshal(obj["attacker"]);
     }
 
     //Not part of core properties
@@ -112,4 +112,4 @@ export class PlayerOnPlayerHit {
     return instance;
   }
 }
-    
+export default PlayerOnPlayerHit;

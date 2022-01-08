@@ -1,6 +1,4 @@
-import {
-  ServerPlayerReported
-} from '../models/ServerPlayerReported';
+import ServerPlayerReported from '../models/ServerPlayerReported';
 import * as Nats from 'nats';
 import {
   ErrorCode,

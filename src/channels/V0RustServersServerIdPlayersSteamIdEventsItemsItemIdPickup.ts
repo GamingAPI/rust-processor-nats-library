@@ -1,6 +1,4 @@
-import {
-  ServerPlayerItemPickup
-} from '../models/ServerPlayerItemPickup';
+import ServerPlayerItemPickup from '../models/ServerPlayerItemPickup';
 import * as Nats from 'nats';
 import {
   ErrorCode,

@@ -1,6 +1,6 @@
 
 
-export class Player {
+class Player {
   private _id: string;
   private _name: string;
   private _address: string;
@@ -76,4 +76,4 @@ export class Player {
     return instance;
   }
 }
-    
+export default Player;

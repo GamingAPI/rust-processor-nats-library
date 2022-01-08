@@ -1,6 +1,6 @@
+import PlayerOnPlayerHit from './PlayerOnPlayerHit';
 
-
-export class ServerPlayerCombatPlayerhit {
+class ServerPlayerCombatPlayerhit {
   private _hitTimestamp: string;
   private _playerHit: PlayerOnPlayerHit;
   private _additionalProperties?: Map<String, object | string | number | Array<unknown> | boolean | null>;
@@ -64,4 +64,4 @@ export class ServerPlayerCombatPlayerhit {
     return instance;
   }
 }
-    
+export default ServerPlayerCombatPlayerhit;

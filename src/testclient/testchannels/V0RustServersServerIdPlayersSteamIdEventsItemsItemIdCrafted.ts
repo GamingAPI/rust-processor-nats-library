@@ -1,6 +1,4 @@
-import {
-  ServerPlayerItemCrafted
-} from '../../models/ServerPlayerItemCrafted';
+import ServerPlayerItemCrafted from '../../models/ServerPlayerItemCrafted';
 import * as Nats from 'nats';
 import {
   ErrorCode,

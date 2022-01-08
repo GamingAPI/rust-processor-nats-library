@@ -1,6 +1,4 @@
-import {
-  ServerPlayerResourceGathered
-} from '../../models/ServerPlayerResourceGathered';
+import ServerPlayerResourceGathered from '../../models/ServerPlayerResourceGathered';
 import * as Nats from 'nats';
 import {
   ErrorCode,
