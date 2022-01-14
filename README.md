@@ -1,7 +1,7 @@
 
 <h1 align="center">TypeScript/Node.js NATS client wrapper</h1>
 <p align="center">
-  <em>This is a generated TypeScript/Node.js NATS client for the application - Rust API.</em>
+  <em>This is a generated TypeScript/Node.js NATS client for the application - Rust processor.</em>
 </p>
 
 **We highly recommend you do not modify this client in any way since it is build for you to re-generate it when your AsyncAPI document changes.** 

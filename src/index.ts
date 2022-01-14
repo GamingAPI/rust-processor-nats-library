@@ -220,7 +220,7 @@ export class NatsAsyncApiClient {
    */
   async connectToProduction(codec ? : Nats.Codec < any > ) {
     await this.connect({
-      servers: ["test.nats.org:{port}"]
+      servers: ["test.nats.org:4444"]
     }, codec);
   }
   /**
