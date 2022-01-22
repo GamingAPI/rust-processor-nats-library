@@ -1,5 +1,5 @@
 {
-  "name": "@gaming_event_api/rust-processor-nats-library",
+  "name": "@gamingapi/rust-processor-nats-library",
   "description": "NATS library for creating a rust processor. To process all events received by a rust server.",
   "publishConfig": {
     "access": "public"
