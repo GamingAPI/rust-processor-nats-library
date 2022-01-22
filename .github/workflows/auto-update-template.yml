@@ -119,8 +119,8 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           title: "feat!: major version change"
-          committer: jonaslagoni <jonas-lt@live.dk>
-          author: jonaslagoni <jonas-lt@live.dk>
+          committer: GamingEventapiBot <gamingeventapi@gmail.com>
+          author: GamingEventapiBot <gamingeventapi@gmail.com>
           delete-branch: true
           commit-message: ${{env.commit_message}}. Library require a new major version change.
           body: ${{env.commit_message}}. Library require a new major version change.
@@ -129,8 +129,8 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           title: "feat: minor version change"
-          committer: jonaslagoni <jonas-lt@live.dk>
-          author: jonaslagoni <jonas-lt@live.dk>
+          committer: GamingEventapiBot <gamingeventapi@gmail.com>
+          author: GamingEventapiBot <gamingeventapi@gmail.com>
           delete-branch: true
           commit-message: ${{env.commit_message}}. Library require a new minor version change.
           body: ${{env.commit_message}}. Library require a new minor version change.
@@ -139,8 +139,8 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           title: "fix: patch version change"
-          committer: jonaslagoni <jonas-lt@live.dk>
-          author: jonaslagoni <jonas-lt@live.dk>
+          committer: GamingEventapiBot <gamingeventapi@gmail.com>
+          author: GamingEventapiBot <gamingeventapi@gmail.com>
           delete-branch: true
           commit-message: ${{env.commit_message}}. Library require a new patch version change.
           body: ${{env.commit_message}}. Library require a new patch version change.
